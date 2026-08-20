@@ -1,12 +1,14 @@
 const pageLoader = document.getElementById("pageLoader");
 
 if (pageLoader) {
+    requestAnimationFrame(() => pageLoader.classList.add("loader-show"));
     const namespace = "http://www.w3.org/2000/svg";
     const center = 230;
-    const radius = 190;
-    const bladeCount = 15;
+    const radius = 250;
+    const pivotRadius = 178;
+    const bladeCount = 13;
     const slot = 360 / bladeCount;
-    const overlap = slot * 1.02;
+    const overlap = slot * 0.72;
     const bladeGroup = pageLoader.querySelector("[data-blade-group]");
 
     const toRadians = (degrees) => degrees * Math.PI / 180;
@@ -36,11 +38,15 @@ if (pageLoader) {
         blade.setAttribute("d", pathData);
         blade.setAttribute("class", "blade");
         blade.setAttribute("fill", `hsl(220, 5%, ${16 + (index % 2 ? 0 : 6) + index * .6}%)`);
-        const pivot = point(radius, angle);
+        const pivot = point(pivotRadius, angle);
         blade.style.transformOrigin = `${pivot[0].toFixed(2)}px ${pivot[1].toFixed(2)}px`;
         blade.dataset.openDelay = `${index * 26}ms`;
         blade.dataset.openTransform = "rotate(-44deg) scale(.86)";
         bladeGroup?.appendChild(blade);
+    }
+
+    if (bladeGroup?.firstElementChild) {
+        bladeGroup.appendChild(bladeGroup.firstElementChild);
     }
 
     const blades = pageLoader.querySelectorAll(".blade");
@@ -69,7 +75,7 @@ if (pageLoader) {
     };
 
     const loadStart = Date.now();
-    const revealWhenReady = () => window.setTimeout(reveal, Math.max(0, 500 - (Date.now() - loadStart)));
+    const revealWhenReady = () => window.setTimeout(reveal, Math.max(0, 80 - (Date.now() - loadStart)));
     window.addEventListener("load", revealWhenReady, { once: true });
     window.setTimeout(reveal, 6000);
 }

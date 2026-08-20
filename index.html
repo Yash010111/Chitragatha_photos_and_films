@@ -23,7 +23,13 @@
               <stop offset="0%" stop-color="#3a3c40" /><stop offset="45%" stop-color="#131416" />
               <stop offset="55%" stop-color="#0c0d0e" /><stop offset="100%" stop-color="#2a2c30" />
             </linearGradient>
+            <mask id="lensPaneMask">
+              <rect width="460" height="460" fill="black" />
+              <circle cx="230" cy="230" r="222" fill="white" />
+              <circle cx="230" cy="230" r="178" fill="black" />
+            </mask>
           </defs>
+          <rect width="460" height="460" fill="#08090b" mask="url(#lensPaneMask)" />
           <circle cx="230" cy="230" r="222" fill="none" stroke="#050506" stroke-width="2" />
           <circle cx="230" cy="230" r="210" fill="none" stroke="url(#barrelMetal)" stroke-width="20" />
           <circle cx="230" cy="230" r="221" fill="none" stroke="rgba(234,230,221,0.14)" />
