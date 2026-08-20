@@ -9,6 +9,7 @@
   .menubar a { color: #fff; font-family: var(--serif); font-size: 38px; }
   .menu-close { position: absolute; top: 28px; right: 20px; display: block; color: #fff; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; }
   .hero { min-height: 720px; padding-bottom: 92px; background-position: 62% center; }
+  .shutter-canvas { width: 100%; opacity: .8; }
   .hero h1 { font-size: clamp(52px, 16vw, 80px); }
   .hero-copy { font-size: 15px; }
   .hero-note { right: 20px; bottom: 24px; font-size: 9px; }
