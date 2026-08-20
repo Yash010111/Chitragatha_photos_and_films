@@ -19,6 +19,10 @@
         <svg class="shutter" viewBox="0 0 460 460" aria-hidden="true">
           <defs>
             <clipPath id="circleClip"><circle cx="230" cy="230" r="178" /></clipPath>
+            <mask id="bladeCenterMask">
+              <rect width="460" height="460" fill="white" />
+              <circle cx="230" cy="230" r="40" fill="black" />
+            </mask>
             <linearGradient id="barrelMetal" x1="0%" y1="0%" x2="100%" y2="100%">
               <stop offset="0%" stop-color="#3a3c40" /><stop offset="45%" stop-color="#131416" />
               <stop offset="55%" stop-color="#0c0d0e" /><stop offset="100%" stop-color="#2a2c30" />
@@ -34,7 +38,7 @@
           <circle cx="230" cy="230" r="210" fill="none" stroke="url(#barrelMetal)" stroke-width="20" />
           <circle cx="230" cy="230" r="221" fill="none" stroke="rgba(234,230,221,0.14)" />
           <circle cx="230" cy="230" r="199" fill="none" stroke="rgba(234,230,221,0.10)" />
-          <g clip-path="url(#circleClip)" data-blade-group></g>
+          <g clip-path="url(#circleClip)" mask="url(#bladeCenterMask)" data-blade-group></g>
           <circle cx="230" cy="230" r="178" fill="none" stroke="rgba(0,0,0,0.55)" stroke-width="3" />
         </svg>
       </div>
