@@ -34,7 +34,7 @@ h1 em, h2 em { color: var(--accent); font-family: var(--serif); font-weight: 500
 .menubar a:hover, .menubar a:focus-visible { color: #fff; }
 .menu-toggle, .menu-close { display: none; border: 0; background: transparent; }
 
-.hero { position: relative; display: flex; min-height: min(820px, 100vh); align-items: flex-end; padding: 150px 0 112px; color: #fff; background: linear-gradient(90deg, rgba(12,10,8,.78), rgba(12,10,8,.12)), url('../assets/images/banner1.jpg') center/cover; isolation: isolate; overflow: hidden; }
+.hero { position: relative; display: flex; min-height: min(820px, 100vh); align-items: flex-end; padding: 150px 0 112px; color: #fff; background: linear-gradient(90deg, rgba(12,10,8,.78), rgba(12,10,8,.12)), url('../assets/images/banner1.jpg') center/cover; isolation: isolate; }
 .hero::after { position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(12,10,8,.64), transparent 42%); content: ''; }
 .hero-content { width: min(1120px, calc(100% - 64px)); }
 .eyebrow { color: var(--accent); font-size: 11px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
@@ -85,11 +85,6 @@ h1 em, h2 em { color: var(--accent); font-family: var(--serif); font-weight: 500
 .lightbox img { max-height: 78vh; width: auto; object-fit: contain; }
 .lightbox figcaption { margin-top: 12px; color: rgba(255,255,255,.7); font-size: 12px; }
 .lightbox-close { position: absolute; top: 28px; right: 32px; border: 0; background: transparent; color: #fff; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; }
-.reveal, .section-intro, .gallery-grid img, .team-copy, .team-images { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
-.reveal.is-visible, .section-intro.is-visible, .gallery-grid img.is-visible, .team-copy.is-visible, .team-images.is-visible { opacity: 1; transform: translateY(0); }
-.hero .reveal:nth-child(2) { transition-delay: .12s; }
-.hero .reveal:nth-child(3) { transition-delay: .2s; }
-.hero .reveal:nth-child(4) { transition-delay: .28s; }
 
 .contact-page { min-height: 100vh; padding: 170px 0 120px; }
 .contact-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 12%; align-items: start; }
