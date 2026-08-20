@@ -1,83 +1,82 @@
-/**********************************************************************************
-   Get Open And Close Menubar Buttons And Menubar
-**********************************************************************************/
-const openMenubarBtn = document.querySelector(".open-menubar-btn");
-const closeMenubarBtn = document.querySelector(".close-menubar-btn");
-const menuBar = document.querySelector(".menubar");
+const openMenuButton = document.querySelector("[data-menu-open]");
+const closeMenuButton = document.querySelector("[data-menu-close]");
+const menu = document.querySelector(".menubar");
 
+const setMenuState = (isOpen) => {
+    if (!menu) return;
+    menu.classList.toggle("is-open", isOpen);
+    document.body.classList.toggle("menu-is-open", isOpen);
+    openMenuButton?.setAttribute("aria-expanded", String(isOpen));
+};
 
-/**********************************************************************************
-   Add Click Event to On Open And Close Menubar On Mobiles
-**********************************************************************************/
-openMenubarBtn.addEventListener('click', function () {
-    menuBar.style.top = "0";
-})
+openMenuButton?.addEventListener("click", () => setMenuState(true));
+closeMenuButton?.addEventListener("click", () => setMenuState(false));
+menu?.querySelectorAll("a").forEach((link) => {
+    link.addEventListener("click", () => setMenuState(false));
+});
 
-closeMenubarBtn.addEventListener('click', function () {
-    const menuBar = document.querySelector(".menubar");
-    menuBar.style.top = "100%";
-})
+const filterButtons = document.querySelectorAll("[data-filter]");
+const galleryItems = document.querySelectorAll("[data-category]");
 
+filterButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+        const filter = button.dataset.filter;
 
-/**********************************************************************************
-   Get Gallery Section Menubar Li And Gallery Images
-**********************************************************************************/
-const galleryMenubarLi = document.querySelectorAll(".gallery-menubar ul li");
-const galleryImgs = document.querySelectorAll(".gallery-imgs-container img");
+        filterButtons.forEach((item) => {
+            const isActive = item === button;
+            item.classList.toggle("active", isActive);
+            item.setAttribute("aria-selected", String(isActive));
+        });
 
+        galleryItems.forEach((item) => {
+            const shouldShow = filter === "all" || item.dataset.category === filter;
+            item.hidden = !shouldShow;
+            if (shouldShow) item.classList.remove("animate");
+            if (shouldShow) requestAnimationFrame(() => item.classList.add("animate"));
+        });
+    });
+});
 
-/**********************************************************************************
- Add Event On Gallery Section Menubar Li to Display Appropriate Images
-**********************************************************************************/
+const lightbox = document.querySelector("[data-lightbox]");
+const lightboxImage = lightbox?.querySelector("img");
+const lightboxCaption = lightbox?.querySelector("[data-lightbox-caption]");
 
-for (let li of galleryMenubarLi) {
+const closeLightbox = () => {
+    lightbox?.classList.remove("is-visible");
+    lightbox?.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("lightbox-is-open");
+};
 
-    li.addEventListener('click', function (e) {
+galleryItems.forEach((item) => {
+    item.addEventListener("click", () => {
+        if (!lightbox || !lightboxImage) return;
+        lightboxImage.src = item.currentSrc || item.src;
+        lightboxImage.alt = item.alt;
+        if (lightboxCaption) lightboxCaption.textContent = item.alt;
+        lightbox.classList.add("is-visible");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.classList.add("lightbox-is-open");
+    });
+});
 
-        /**********************************************************************************
-            Remove Active Class From All Li
-        **********************************************************************************/
-        for (li of galleryMenubarLi) {
-            li.classList.remove("active");
-        }
+lightbox?.querySelector("[data-lightbox-close]")?.addEventListener("click", closeLightbox);
+lightbox?.addEventListener("click", (event) => {
+    if (event.target === lightbox) closeLightbox();
+});
+document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+        setMenuState(false);
+        closeLightbox();
+    }
+});
 
-        /**********************************************************************************
-           Add Active Class To Appropriate (Clicked) Li
-       **********************************************************************************/
-        e.target.classList.add("active");
-
-
-        /**********************************************************************************
-          If Clicked On All So, Display All Images
-       **********************************************************************************/
-        if (e.target.innerText.toLowerCase() === "all") {
-
-            for (let img of galleryImgs) {
-                img.classList.remove('animate');
-                img.style.display = "block";
-                img.classList.add("animate");
-            }
-
-        }
-        else {
-
-            /**********************************************************************************
-                 Else Display Appropriate Images According to Click
-            **********************************************************************************/
-            for (let img of galleryImgs) {
-
-                if (img.dataset.image === e.target.innerText.toLowerCase()) {
-                    img.classList.remove('animate');
-                    img.style.display = "block";
-                    img.classList.add('animate');
-                }
-                else {
-                    img.style.display = "none";
-                }
-
-            }
-
-        }
-
-    })
-}
+const contactForm = document.querySelector("[data-contact-form]");
+contactForm?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const formData = new FormData(contactForm);
+    const message = `Hello Chitragatha, my name is ${formData.get("name")}. Email: ${formData.get("email")}. ${formData.get("message")}`;
+    const whatsappUrl = `https://wa.me/919970008737?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank", "noopener,noreferrer");
+    const status = contactForm.querySelector("[data-form-status]");
+    if (status) status.textContent = "WhatsApp opened in a new tab with your message ready to send.";
+});

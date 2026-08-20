@@ -1,24 +1,29 @@
-# photohd-studio-website
+# Chitragatha Photos & Films
 
-This is a static website for a photography studio agency. It is created using HTML, CSS, and JS. It has a modern and elegant design that showcases the work and services of PhotoHD Studio.
+A static photography studio portfolio built with semantic HTML, CSS, and browser JavaScript. It is framework-free, deployable on any static host, and uses the existing local photo collection.
 
-## Demo
+## Structure
 
-You can see a live demo of the website here: [https://photohdstudio.netlify.app].
+```text
+index.html              Portfolio homepage
+contact.html            Contact page with WhatsApp handoff
+assets/images/          Logos, banners, gallery, and team photography
+css/style.css           Shared visual system and component styles
+css/media-queries.css   Mobile layout rules
+css/utils.css           Small shared utility classes
+js/index.js             Navigation, filters, lightbox, and contact behavior
+```
 
-## Features
+## Run locally
 
-- Responsive layout that adapts to different screen sizes and devices
-- Gallery section with a lightbox feature to display the photos in full size
-- Footer section with social media icons and links
+Open `index.html` directly in a browser, or serve the folder with any static server:
 
-## Installation
+```bash
+npx serve .
+```
 
-To install this website on your local machine, you need to have [Git] installed. Then, follow these steps:
+The contact form opens a pre-filled WhatsApp message because a static website has no server-side form endpoint. Replace the phone number in `contact.html` and `js/index.js` before publishing if needed.
 
-1. Open your terminal and navigate to the folder where you want to clone the repo.
-2. Run the command `git clone https://github.com/webwithaman/photohd-studio-website.git` to clone the repo.
-3. Run the command `cd photohd-studio-website` to enter the project folder.
-4. Run the command `open index.html` to open the website in your default browser.
+## Image performance
 
-Alternatively, you can download the zip file of the repo from [here] and extract it to your desired location. Then, double-click on the index.html file to open the website in your browser.
+For production, export the gallery as WebP or AVIF in a few responsive sizes. Keep the current eager load only for the first hero-visible gallery image and lazy-load the rest, as the page already does.

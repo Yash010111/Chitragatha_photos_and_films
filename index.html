@@ -2,368 +2,114 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-------------------------------------------------
-        Title
-    --------------------------------------------------->
-    <title>Chitragatha Photos and Films</title>
-
-    <!-------------------------------------------------
-       Link Favicon
-    -------------------------------------------------->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="Chitragatha Photos and Films creates warm, timeless wedding and event stories." />
+    <title>Chitragatha Photos &amp; Films | Stories in focus</title>
     <link rel="icon" type="image/jpeg" href="assets/images/logo.jpg" />
-
-    <!---------------------------------------------------
-       Font Awesome Cdn For Icons
-    ----------------------------------------------------->
-    <script
-      src="https://kit.fontawesome.com/8769ee6e50.js"
-      crossorigin="anonymous"
-    ></script>
-
-    <!---------------------------------------------------
-       Link External Custom Style Sheets
-    ----------------------------------------------------->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Playfair+Display:ital,wght@0,500;0,600;1,500&amp;display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="css/utils.css" />
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/media-queries.css" />
-    <link rel="stylesheet" href="css/custom-style.css" />
   </head>
-
   <body>
-    <!---------------------------------------------------------
-        Position Fixed Elements (Following Elements Remain Fixed At One Place) Start
-    ---------------------------------------------------------->
-
-    <!---------------------------------------------------------
-        Open Menubar Button to Open Menubar On Mobiles
-    ---------------------------------------------------------->
-    <span class="open-menubar-btn"></span>
-    <!---------------------------------------------------------
-       Position Fixed Elements (Following Elements Remain Fixed At One Place) End
-    ---------------------------------------------------------->
-
-    <!---------------------------------------------------------
-        Wrapper Start
-    ---------------------------------------------------------->
-    <div class="wrapper">
-      <!---------------------------------------------------------
-             Navbar Start
-        ---------------------------------------------------------->
-      <nav class="navbar">
-        <div class="navbar-inner max-width flex">
-          <!---------------------------------------------------------
-                    Logo Start
-                ---------------------------------------------------------->
-          <div class="logo">
-            <img src="assets/images/logo.jpg" alt="Chitragatha Photos and Films Logo" />
-            <h1>Chitragatha Photos and Films</h1>
-          </div>
-
-          <!---------------------------------------------------------
-                    Menubar Start (Nav-lnks)
-                ---------------------------------------------------------->
-          <div class="menubar">
-            <span class="close-menubar-btn"></span>
-            <ul class="flex">
-              <li>
-                <a href="#"><span class="red-text">Home</span></a>
-              </li>
-              <li>
-                <a href="#members-section">Member</a>
-              </li>
-              <li>
-                <a href="#gallery-section">Gallery</a>
-              </li>
-              <li>
-                <a href="#testimonials">testimonial</a>
-              </li>
-              <li>
-                <a href="contact.html">Contact</a>
-              </li>
-            </ul>
-          </div>
-
-          <!---------------------------------------------------------
-                    Navbar Buttons
-                ---------------------------------------------------------->
-          
+    <header class="site-header">
+      <nav class="navbar max-width" aria-label="Primary navigation">
+        <a class="brand" href="index.html" aria-label="Chitragatha home">
+          <img src="assets/images/logo.jpg" alt="" width="52" height="52" />
+          <span>Chitragatha <small>Photos &amp; Films</small></span>
+        </a>
+        <button class="menu-toggle" type="button" data-menu-open aria-expanded="false" aria-controls="site-menu">Menu</button>
+        <div class="menubar" id="site-menu">
+          <button class="menu-close" type="button" data-menu-close aria-label="Close navigation">Close</button>
+          <ul>
+            <li><a href="#gallery-section">Portfolio</a></li>
+            <li><a href="#members-section">The team</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
         </div>
       </nav>
-      <!---------------------------------------------------------
-            Navbar End
-        ---------------------------------------------------------->
+    </header>
 
-      <!---------------------------------------------------------
-           Hero Section Start
-        ---------------------------------------------------------->
-      <header>
-        <section id="hero-section" class="flex">
-          <span class="camera-icon"
-            ><i class="fa fa-camera" aria-hidden="true"></i
-          ></span>
-          <h1>
-            Chitragatha Photos and Films
-          </h1>
+    <main>
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-content max-width">
+          <p class="eyebrow">Photography · Films · Stories</p>
+          <h1 id="hero-title">The moments<br /><em>between</em> moments.</h1>
+          <p class="hero-copy">Thoughtful photographs and films for celebrations that deserve to be remembered exactly as they felt.</p>
+          <a class="button button-light" href="#gallery-section">Explore the work <span aria-hidden="true">↘</span></a>
+        </div>
+        <p class="hero-note">Based in India <span aria-hidden="true">·</span> Available worldwide</p>
+      </section>
 
-          <!-- <div class="input-btn-box">
-            <input type="text" placeholder="Search......" /><button
-              class="common-btn"
-            >
-              Search
-            </button>
-          </div> -->
-        </section>
-      </header>
-      <!---------------------------------------------------------
-             Hero Section End
-        ---------------------------------------------------------->
-
-      <!---------------------------------------------------------
-             Gallery Section Start
-        ---------------------------------------------------------->
-      <section id="gallery-section">
-        <div class="gallery-inner max-width">
-          <h1 class="section-heading">Gal<span class="red-text">lery</span></h1>
-
-          <!---------------------------------------------------------
-                     Gallery Section Menubar
-                ---------------------------------------------------------->
-          <div class="gallery-menubar">
-            <ul class="flex">
-              <li class="active">All</li>
-              <li>Nature</li>
-              <li>Spiritual</li>
-              <li>wedding</li>
-            </ul>
+      <section class="section gallery-section" id="gallery-section" aria-labelledby="gallery-title">
+        <div class="max-width">
+          <div class="section-intro">
+            <p class="eyebrow">Selected work</p>
+            <h2 id="gallery-title">A little <em>feeling</em> goes a long way.</h2>
+            <p>From quiet glances to wildly happy dance floors, we photograph the honest details that make your story yours.</p>
           </div>
-
-          <!---------------------------------------------------------
-                     Gallery Section Images Container
-                ---------------------------------------------------------->
-          <div class="gallery-imgs-container flex">
-            <img
-              src="assets/images/p1.jpg"
-              alt="gallery-image"
-              data-image="nature"
-            />
-            <img
-              src="assets/images/p2.jpg"
-              alt="gallery-image"
-              data-image="nature"
-            />
-            <img
-              src="assets/images/p3.jpg"
-              alt="gallery-image"
-              data-image="fashion"
-            />
-            <img
-              src="assets/images/p4.jpg"
-              alt="gallery-image"
-              data-image="fashion"
-            />
-            <img
-              src="assets/images/p5.jpg"
-              alt="gallery-image"
-              data-image="wedding"
-            />
-            <img
-              src="assets/images/p6.jpg"
-              alt="gallery-image"
-              data-image="nature"
-            />
-            <img
-              src="assets/images/p7.jpg"
-              alt="gallery-image"
-              data-image="wedding"
-            />
-            <img
-              src="assets/images/p8.jpg"
-              alt="gallery-image"
-              data-image="fashion"
-            />
-            <img
-              src="assets/images/p9.jpg"
-              alt="gallery-image"
-              data-image="wedding"
-            />
+          <div class="gallery-toolbar" role="tablist" aria-label="Filter portfolio">
+            <button class="filter-button active" type="button" role="tab" aria-selected="true" data-filter="all">All work</button>
+            <button class="filter-button" type="button" role="tab" aria-selected="false" data-filter="nature">Nature</button>
+            <button class="filter-button" type="button" role="tab" aria-selected="false" data-filter="spiritual">Spiritual</button>
+            <button class="filter-button" type="button" role="tab" aria-selected="false" data-filter="wedding">Weddings</button>
+            <button class="filter-button" type="button" role="tab" aria-selected="false" data-filter="portrait">Portraits</button>
+          </div>
+          <div class="gallery-grid">
+            <img src="assets/images/p1.jpg" alt="A quiet landscape in warm evening light" data-category="nature" loading="eager" />
+            <img src="assets/images/p2.jpg" alt="Green hills framed by soft morning light" data-category="nature" loading="lazy" />
+            <img src="assets/images/p3.jpg" alt="A portrait captured in an intimate setting" data-category="portrait" loading="lazy" />
+            <img src="assets/images/p4.jpg" alt="A joyful celebration captured in motion" data-category="wedding" loading="lazy" />
+            <img src="assets/images/p5.jpg" alt="Wedding details arranged with care" data-category="wedding" loading="lazy" />
+            <img src="assets/images/p6.jpg" alt="A peaceful natural scene" data-category="nature" loading="lazy" />
+            <img src="assets/images/p7.jpg" alt="A couple sharing a candid laugh" data-category="wedding" loading="lazy" />
+            <img src="assets/images/p8.jpg" alt="A considered portrait with soft shadows" data-category="portrait" loading="lazy" />
+            <img src="assets/images/p9.jpg" alt="A celebration surrounded by family" data-category="wedding" loading="lazy" />
+            <img src="assets/images/s1.jpg" alt="Temple architecture against a clear sky" data-category="spiritual" loading="lazy" />
+            <img src="assets/images/s2.jpg" alt="A serene place of worship" data-category="spiritual" loading="lazy" />
+            <img src="assets/images/s3.jpg" alt="A spiritual ceremony detail" data-category="spiritual" loading="lazy" />
+            <img src="assets/images/s4.jpg" alt="Sacred architecture and natural light" data-category="spiritual" loading="lazy" />
+            <img src="assets/images/s5.jpg" alt="A peaceful devotional moment" data-category="spiritual" loading="lazy" />
+            <img src="assets/images/s6.jpg" alt="A quiet temple scene" data-category="spiritual" loading="lazy" />
+            <img src="assets/images/ab1.jpg" alt="A wide open landscape" data-category="nature" loading="lazy" />
+            <img src="assets/images/ab2.jpg" alt="A natural landscape beneath open skies" data-category="nature" loading="lazy" />
+            <img src="assets/images/ab3.jpg" alt="A textured landscape in warm light" data-category="nature" loading="lazy" />
           </div>
         </div>
       </section>
-      <!---------------------------------------------------------
-             Gallery Section End
-        ---------------------------------------------------------->
 
-      <!-- -------------------------------------------------------
-             Testimonials Section Start
-        ---------------------------------------------------------->
-      <!-- <section id="testimonials" class="max-width">
-        <div class="testimonials-inner max-width">
-          <h1 class="section-heading">
-            Testi<span class="red-text">monial</span>
-          </h1>
-
-  
-          <div class="testimonial-info">
-            <h3>What Our Members Says</h3>
-            <img src="assets/images/member.png" alt="" />
-            <p>
-              From Rajasthan,doing gym is good for healthy life.<br />
-              it helps our body to fit. it release stress from our mind.From
-              Rajasthan,doing gym is good for healthy life. it helps our body to
-              fit.<br />
-              it release stress from our mind.
-            </p>
-            <h2>Maria Sharapova</h2>
+      <section class="section team-section" id="members-section" aria-labelledby="team-title">
+        <div class="max-width team-layout">
+          <div class="section-intro">
+            <p class="eyebrow">Behind the camera</p>
+            <h2 id="team-title">Small team.<br /><em>Big attention.</em></h2>
           </div>
-        </div>
-      </section> -->
-      <!---------------------------------------------------------
-             Testimonials Section End
-        -------------------------------------------------------- -->
-
-      <!---------------------------------------------------------
-             Members Section Start
-        ---------------------------------------------------------->
-      <section id="members-section">
-        <div class="members-inner max-width">
-          <h1 class="section-heading">
-            Our <span class="red-text">Proffesionals</span>
-          </h1>
-
-          <!---------------------------------------------------------
-                   Members Section Images Container    
-                ---------------------------------------------------------->
-          <div class="members-imgs-container flex">
-            <img src="assets/images/team1.jpg" alt="Rishikesh" />
-            <img src="assets/images/team2.jpg" alt="Sanny" />
-            
+          <div class="team-copy">
+            <p>We are Rishikesh and Sanny, a close-knit photo and film team who believe the best images feel lived in, not staged.</p>
+            <a class="text-link" href="contact.html">Let’s make something lasting <span aria-hidden="true">↗</span></a>
+          </div>
+          <div class="team-images">
+            <img src="assets/images/team1.jpg" alt="Rishikesh, photographer" loading="lazy" />
+            <img src="assets/images/team2.jpg" alt="Sanny, filmmaker" loading="lazy" />
           </div>
         </div>
       </section>
-      <!---------------------------------------------------------
-            Members Section End
-        ---------------------------------------------------------->
+    </main>
 
-      <!---------------------------------------------------------
-            Social Media Images Start
-        ---------------------------------------------------------->
-      <div class="social-media-images">
-        <!-- <a
-          href="https://www.facebook.com/profile.php?id=100038552535172"
-          target="_blank"
-          ><img src="assets/images/icon1.png" alt="social-icon"
-        /></a> -->
-        <a href="https://www.instagram.com/chitragatha_photos_and_films/" target="_blank"
-          ><img src="assets/images/icon2.png" alt="social-icon"
-        /></a>
-        <a href="https://wa.me/+919970008737" target="_blank"
-          ><img src="assets/images/icon3.png" alt="social-icon"
-        /></a>
-        <!-- <a href="https://twitter.com/WebWithAman" target="_blank"
-          ><img src="assets/images/icon4.png" alt="social-icon"
-        /></a> -->
+    <footer class="site-footer">
+      <div class="max-width footer-layout">
+        <div><p class="eyebrow">Have a story in mind?</p><h2>Let’s talk.</h2></div>
+        <a class="button button-light" href="contact.html">Start a conversation <span aria-hidden="true">↗</span></a>
+        <div class="footer-bottom"><span>© 2026 Chitragatha Photos &amp; Films</span><a href="https://www.instagram.com/chitragatha_photos_and_films/" target="_blank" rel="noreferrer">Instagram ↗</a><a href="https://wa.me/919970008737" target="_blank" rel="noreferrer">WhatsApp ↗</a></div>
       </div>
-      <!---------------------------------------------------------
-            Social Media Images End
-        ---------------------------------------------------------->
+    </footer>
 
-      <!---------------------------------------------------------
-            Footer Start
-        ---------------------------------------------------------->
-      <footer>
-        <div class="footer-inner max-width">
-          <!---------------------------------------------------------
-                      Footer Subscribe Start
-                ---------------------------------------------------------->
-         
-          </div>
-          <!---------------------------------------------------------
-                      Footer Subscribe End
-                ---------------------------------------------------------->
-
-          <!---------------------------------------------------------
-                      Footer Links Start
-                ---------------------------------------------------------->
-          <div class="footer-infos-row flex">
-            <div class="footer-info-col">
-              <h2>Information</h2>
-              <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Id
-                nihil perferendis libero culpa qui tempora eligendi.
-              </p>
-              <div class="social-media-icons">
-                <a
-                  href="https://www.facebook.com/profile.php?id=100038552535172"
-                  target="_blank"
-                  ><i class="fa fa-facebook" aria-hidden="true"></i
-                ></a>
-                <a
-                  href="https://www.instagram.com/0fficial_aman__/"
-                  target="_blank"
-                  ><i class="fa fa-instagram" aria-hidden="true"></i
-                ></a>
-                <a href="https://wa.me/+916284464211" target="_blank"
-                  ><i class="fa fa-whatsapp" aria-hidden="true"></i
-                ></a>
-                <a href="https://twitter.com/WebWithAman" target="_blank"
-                  ><i class="fa fa-twitter" aria-hidden="true"></i
-                ></a>
-              </div>
-            </div>
-            <div class="footer-info-col">
-              <h2>Useful links</h2>
-              <ul>
-                <li>Home</li>
-                <li>About</li>
-                <li>Gallery</li>
-                <li>Testimonial</li>
-                <li>Members</li>
-              </ul>
-            </div>
-            <div class="footer-info-col">
-              <h2>details</h2>
-              <ul>
-                <li>photgraphy</li>
-                <li>videography</li>
-                <li>movies</li>
-                <li>printing</li>
-                <li>events</li>
-              </ul>
-            </div>
-            <div class="footer-info-col">
-              <h2>help and support</h2>
-              <ul>
-                <li>privacy policy</li>
-                <li>technical support</li>
-                <li>terms and conditions</li>
-                <li>Testimonial</li>
-                <li>customer care</li>
-              </ul>
-            </div>
-          </div>
-          <!---------------------------------------------------------
-                      Footer Links End
-                ---------------------------------------------------------->
-        </div>
-      </footer>
-      <!---------------------------------------------------------
-            Footer End
-        ---------------------------------------------------------->
+    <div class="lightbox" data-lightbox aria-hidden="true" role="dialog" aria-modal="true" aria-label="Expanded portfolio image">
+      <button class="lightbox-close" type="button" data-lightbox-close aria-label="Close image">Close</button>
+      <figure><img src="" alt="" /><figcaption data-lightbox-caption></figcaption></figure>
     </div>
-    <!---------------------------------------------------------
-        Wrapper End
-    ---------------------------------------------------------->
-
-    <!--------------------------------------------------------------------------------
-       Javascript Cdns And Files For Icons And Other Sources And External Custom Js Files
-    ---------------------------------------------------------------------------------->
-
-    <!---------------------------------------------------
-       Link External Custom Js Files
-    ----------------------------------------------------->
     <script defer src="js/index.js"></script>
   </body>
 </html>
