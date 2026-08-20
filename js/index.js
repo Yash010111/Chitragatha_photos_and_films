@@ -1,3 +1,79 @@
+const pageLoader = document.getElementById("pageLoader");
+
+if (pageLoader) {
+    const namespace = "http://www.w3.org/2000/svg";
+    const center = 230;
+    const radius = 190;
+    const bladeCount = 15;
+    const slot = 360 / bladeCount;
+    const overlap = slot * 1.02;
+    const bladeGroup = pageLoader.querySelector("[data-blade-group]");
+
+    const toRadians = (degrees) => degrees * Math.PI / 180;
+    const point = (distance, degrees) => [
+        center + distance * Math.cos(toRadians(degrees)),
+        center + distance * Math.sin(toRadians(degrees)),
+    ];
+
+    for (let index = 0; index < bladeCount; index += 1) {
+        const angle = slot * index - 90;
+        const startAngle = angle - overlap;
+        const endAngle = angle + overlap;
+        const outerStart = point(radius, startAngle);
+        const outerEnd = point(radius, endAngle);
+        const tipStart = point(15, angle - 8);
+        const tipEnd = point(15, angle + 8);
+        const curveStart = point(radius * .55, startAngle + 5);
+        const curveEnd = point(radius * .55, endAngle - 5);
+        const pathData = [
+            `M ${tipStart[0].toFixed(2)} ${tipStart[1].toFixed(2)}`,
+            `Q ${curveStart[0].toFixed(2)} ${curveStart[1].toFixed(2)} ${outerStart[0].toFixed(2)} ${outerStart[1].toFixed(2)}`,
+            `A ${radius} ${radius} 0 0 1 ${outerEnd[0].toFixed(2)} ${outerEnd[1].toFixed(2)}`,
+            `Q ${curveEnd[0].toFixed(2)} ${curveEnd[1].toFixed(2)} ${tipEnd[0].toFixed(2)} ${tipEnd[1].toFixed(2)}`,
+            `A 15 15 0 0 0 ${tipStart[0].toFixed(2)} ${tipStart[1].toFixed(2)} Z`,
+        ].join(" ");
+        const blade = document.createElementNS(namespace, "path");
+        blade.setAttribute("d", pathData);
+        blade.setAttribute("class", "blade");
+        blade.setAttribute("fill", `hsl(220, 5%, ${16 + (index % 2 ? 0 : 6) + index * .6}%)`);
+        const pivot = point(radius, angle);
+        blade.style.transformOrigin = `${pivot[0].toFixed(2)}px ${pivot[1].toFixed(2)}px`;
+        blade.dataset.openDelay = `${index * 26}ms`;
+        blade.dataset.openTransform = "rotate(-44deg) scale(.86)";
+        bladeGroup?.appendChild(blade);
+    }
+
+    const blades = pageLoader.querySelectorAll(".blade");
+    const reveal = () => {
+        document.documentElement.classList.remove("is-loading");
+        document.body.classList.remove("is-loading");
+        pageLoader.classList.add("open");
+        blades.forEach((blade) => {
+            blade.style.transitionDelay = blade.dataset.openDelay;
+            blade.style.transform = blade.dataset.openTransform;
+        });
+
+        // Hold the open aperture briefly, then close it like a camera capture.
+        window.setTimeout(() => {
+            blades.forEach((blade, index) => {
+                blade.style.transitionDelay = `${(blades.length - 1 - index) * 18}ms`;
+                blade.style.transform = "none";
+            });
+
+            window.setTimeout(() => {
+                pageLoader.classList.add("loader-hide");
+                pageLoader.addEventListener("transitionend", () => pageLoader.remove(), { once: true });
+                window.setTimeout(() => pageLoader.remove(), 800);
+            }, 720);
+        }, 750);
+    };
+
+    const loadStart = Date.now();
+    const revealWhenReady = () => window.setTimeout(reveal, Math.max(0, 500 - (Date.now() - loadStart)));
+    window.addEventListener("load", revealWhenReady, { once: true });
+    window.setTimeout(reveal, 6000);
+}
+
 const openMenuButton = document.querySelector("[data-menu-open]");
 const closeMenuButton = document.querySelector("[data-menu-close]");
 const menu = document.querySelector(".menubar");
