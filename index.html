@@ -1,144 +1,190 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="Chitragatha Photos and Films creates warm, timeless wedding and event stories." />
-    <title>Chitragatha Photos &amp; Films | Stories in focus</title>
-    <link rel="icon" type="image/jpeg" href="assets/images/logo.jpg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&amp;family=Playfair+Display:ital,wght@0,500;0,600;1,500&amp;display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="css/utils.css" />
-    <link rel="stylesheet" href="css/style.css" />
-    <link rel="stylesheet" href="css/media-queries.css" />
-  </head>
-  <body>
-    <div id="pageLoader" aria-hidden="true">
-      <div class="shutter-wrap">
-        <svg class="shutter" viewBox="0 0 460 460" aria-hidden="true">
-          <defs>
-            <clipPath id="circleClip"><circle cx="230" cy="230" r="178" /></clipPath>
-            <mask id="bladeCenterMask">
-              <rect width="460" height="460" fill="white" />
-              <circle cx="230" cy="230" r="40" fill="black" />
-            </mask>
-            <linearGradient id="barrelMetal" x1="0%" y1="0%" x2="100%" y2="100%">
-              <stop offset="0%" stop-color="#3a3c40" /><stop offset="45%" stop-color="#131416" />
-              <stop offset="55%" stop-color="#0c0d0e" /><stop offset="100%" stop-color="#2a2c30" />
-            </linearGradient>
-            <mask id="lensPaneMask">
-              <rect width="460" height="460" fill="black" />
-              <circle cx="230" cy="230" r="222" fill="white" />
-              <circle cx="230" cy="230" r="178" fill="black" />
-            </mask>
-          </defs>
-          <rect width="460" height="460" fill="#08090b" mask="url(#lensPaneMask)" />
-          <circle cx="230" cy="230" r="222" fill="none" stroke="#050506" stroke-width="2" />
-          <circle cx="230" cy="230" r="210" fill="none" stroke="url(#barrelMetal)" stroke-width="20" />
-          <circle cx="230" cy="230" r="221" fill="none" stroke="rgba(234,230,221,0.14)" />
-          <circle cx="230" cy="230" r="199" fill="none" stroke="rgba(234,230,221,0.10)" />
-          <g clip-path="url(#circleClip)" mask="url(#bladeCenterMask)" data-blade-group></g>
-          <circle cx="230" cy="230" r="178" fill="none" stroke="rgba(0,0,0,0.55)" stroke-width="3" />
-        </svg>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chitragatha Photos &amp; Films | Photography, Films &amp; Reels</title>
+<meta name="description" content="Professional wedding photography, event coverage, baby shoots, portraits and cinematic reels by Chitragatha Photos & Films.">
+<meta name="theme-color" content="#302638">
+<link rel="icon" type="image/jpeg" href="assets/images/logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="header" data-header>
+  <nav class="nav wrap" aria-label="Primary">
+    <a class="brand" href="#top" aria-label="Chitragatha Photos and Films, home">
+      <img src="assets/images/logo.jpg" alt="" width="44" height="44">
+      <span>Chitragatha<small>Photos &amp; Films</small></span>
+    </a>
+    <button class="burger" type="button" data-menu-open aria-expanded="false" aria-controls="menu">Menu</button>
+    <div class="menu" id="menu">
+      <button class="menu-close" type="button" data-menu-close>Close</button>
+      <ul>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#reels">Reels</a></li>
+        <li><a href="#portfolio">Portfolio</a></li>
+        <li><a href="#process">Process</a></li>
+        <li><a href="#about">About</a></li>
+      </ul>
+      <a class="btn btn-gold" href="#contact">Book a date</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main">
+  <section class="hero" id="top">
+    <div class="wrap hero-in">
+      <p class="hero-eyebrow">Photography, films &amp; cinematic reels</p>
+      <h1>Photographs and films that hold the feeling of the day.</h1>
+      <p>From wedding photography and family celebrations to cinematic short-form video, our team works with you from the first conversation through final delivery.</p>
+      <div class="actions">
+        <a class="btn btn-gold" href="#contact">Ask about your date</a>
+        <a class="btn btn-line" href="#portfolio">Explore our work</a>
       </div>
     </div>
-    <header class="site-header">
-      <nav class="navbar max-width" aria-label="Primary navigation">
-        <a class="brand" href="index.html" aria-label="Chitragatha home">
-          <img src="assets/images/logo.jpg" alt="" width="52" height="52" />
-          <span>Chitragatha <small>Photos &amp; Films</small></span>
-        </a>
-        <button class="menu-toggle" type="button" data-menu-open aria-expanded="false" aria-controls="site-menu">Menu</button>
-        <div class="menubar" id="site-menu">
-          <button class="menu-close" type="button" data-menu-close aria-label="Close navigation">Close</button>
-          <ul>
-            <li><a href="#gallery-section">Portfolio</a></li>
-            <li><a href="#members-section">The team</a></li>
-            <li><a href="contact.html">Contact</a></li>
-          </ul>
-        </div>
-      </nav>
-    </header>
+    <ul class="hero-tags wrap" aria-label="Services">
+      <li>Wedding photography</li><li>Pre-wedding shoots</li><li>Birthday coverage</li><li>Baby shoots</li><li>Portrait sessions</li><li>Cinematic reels</li>
+    </ul>
+  </section>
 
-    <main>
-      <section class="hero" aria-labelledby="hero-title">
-        <div class="hero-content max-width">
-          <p class="eyebrow">Photography · Films · Stories</p>
-          <h1 id="hero-title">The moments<br /><em>between</em> moments.</h1>
-          <p class="hero-copy">Thoughtful photographs and films for celebrations that deserve to be remembered exactly as they felt.</p>
-          <a class="button button-light" href="#gallery-section">Explore the work <span aria-hidden="true">↘</span></a>
-        </div>
-        <p class="hero-note">Based in India <span aria-hidden="true">·</span> Available worldwide</p>
-      </section>
-
-      <section class="section gallery-section" id="gallery-section" aria-labelledby="gallery-title">
-        <div class="max-width">
-          <div class="section-intro">
-            <p class="eyebrow">Selected work</p>
-            <h2 id="gallery-title">A little <em>feeling</em> goes a long way.</h2>
-            <p>From quiet glances to wildly happy dance floors, we photograph the honest details that make your story yours.</p>
-          </div>
-          <div class="gallery-toolbar" role="tablist" aria-label="Filter portfolio">
-            <button class="filter-button active" type="button" role="tab" aria-selected="true" data-filter="all">All work</button>
-            <button class="filter-button" type="button" role="tab" aria-selected="false" data-filter="nature">Nature</button>
-            <button class="filter-button" type="button" role="tab" aria-selected="false" data-filter="spiritual">Spiritual</button>
-            <button class="filter-button" type="button" role="tab" aria-selected="false" data-filter="wedding">Weddings</button>
-            <button class="filter-button" type="button" role="tab" aria-selected="false" data-filter="portrait">Portraits</button>
-          </div>
-          <div class="gallery-grid">
-            <img src="assets/images/p1.jpg" alt="A quiet landscape in warm evening light" data-category="nature" loading="eager" />
-            <img src="assets/images/p2.jpg" alt="Green hills framed by soft morning light" data-category="nature" loading="lazy" />
-            <img src="assets/images/p3.jpg" alt="A portrait captured in an intimate setting" data-category="portrait" loading="lazy" />
-            <img src="assets/images/p4.jpg" alt="A joyful celebration captured in motion" data-category="wedding" loading="lazy" />
-            <img src="assets/images/p5.jpg" alt="Wedding details arranged with care" data-category="wedding" loading="lazy" />
-            <img src="assets/images/p6.jpg" alt="A peaceful natural scene" data-category="nature" loading="lazy" />
-            <img src="assets/images/p7.jpg" alt="A couple sharing a candid laugh" data-category="wedding" loading="lazy" />
-            <img src="assets/images/p8.jpg" alt="A considered portrait with soft shadows" data-category="portrait" loading="lazy" />
-            <img src="assets/images/p9.jpg" alt="A celebration surrounded by family" data-category="wedding" loading="lazy" />
-            <img src="assets/images/s1.jpg" alt="Temple architecture against a clear sky" data-category="spiritual" loading="lazy" />
-            <img src="assets/images/s2.jpg" alt="A serene place of worship" data-category="spiritual" loading="lazy" />
-            <img src="assets/images/s3.jpg" alt="A spiritual ceremony detail" data-category="spiritual" loading="lazy" />
-            <img src="assets/images/s4.jpg" alt="Sacred architecture and natural light" data-category="spiritual" loading="lazy" />
-            <img src="assets/images/s5.jpg" alt="A peaceful devotional moment" data-category="spiritual" loading="lazy" />
-            <img src="assets/images/s6.jpg" alt="A quiet temple scene" data-category="spiritual" loading="lazy" />
-            <img src="assets/images/ab1.jpg" alt="A wide open landscape" data-category="nature" loading="lazy" />
-            <img src="assets/images/ab2.jpg" alt="A natural landscape beneath open skies" data-category="nature" loading="lazy" />
-            <img src="assets/images/ab3.jpg" alt="A textured landscape in warm light" data-category="nature" loading="lazy" />
-          </div>
-        </div>
-      </section>
-
-      <section class="section team-section" id="members-section" aria-labelledby="team-title">
-        <div class="max-width team-layout">
-          <div class="section-intro">
-            <p class="eyebrow">Behind the camera</p>
-            <h2 id="team-title">Small team.<br /><em>Big attention.</em></h2>
-          </div>
-          <div class="team-copy">
-            <p>We are Rishikesh and Sanny, a close-knit photo and film team who believe the best images feel lived in, not staged.</p>
-            <a class="text-link" href="contact.html">Let’s make something lasting <span aria-hidden="true">↗</span></a>
-          </div>
-          <div class="team-images">
-            <img src="assets/images/team1.jpg" alt="Rishikesh, photographer" loading="lazy" />
-            <img src="assets/images/team2.jpg" alt="Sanny, filmmaker" loading="lazy" />
-          </div>
-        </div>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <div class="max-width footer-layout">
-        <div><p class="eyebrow">Have a story in mind?</p><h2>Let’s talk.</h2></div>
-        <a class="button button-light" href="contact.html">Start a conversation <span aria-hidden="true">↗</span></a>
-        <div class="footer-bottom"><span>© 2026 Chitragatha Photos &amp; Films</span><a href="https://www.instagram.com/chitragatha_photos_and_films/" target="_blank" rel="noreferrer">Instagram ↗</a><a href="https://wa.me/919970008737" target="_blank" rel="noreferrer">WhatsApp ↗</a></div>
+  <section class="section" id="services">
+    <div class="wrap">
+      <header class="head"><h2>Photography services</h2><p>Every package is planned around the event, the venue and the people who matter most to you.</p></header>
+      <div class="cards">
+        <article class="card"><h3>Wedding photography &amp; films</h3><p>Thoughtful coverage of the ceremony, family and celebrations, combining candid moments, traditional portraits and a cinematic highlight film.</p><div class="card-actions"><a href="#portfolio" data-go="wedding">View wedding work</a><a class="card-enquire" href="#contact" data-service="wedding">Ask about wedding coverage</a></div></article>
+        <article class="card"><h3>Pre-wedding shoots</h3><p>Personalised couple sessions at a location you love, with images for invitations, save-the-dates and your wedding celebration.</p><div class="card-actions"><a href="#portfolio" data-go="prewedding">View pre-wedding work</a><a class="card-enquire" href="#contact" data-service="prewedding">Plan a pre-wedding shoot</a></div></article>
+        <article class="card"><h3>Birthday photography</h3><p>Relaxed coverage of milestone birthdays and themed celebrations, capturing the people, details and moments that make the day yours.</p><div class="card-actions"><a href="#portfolio" data-go="birthday">View birthday work</a><a class="card-enquire" href="#contact" data-service="birthday">Enquire about birthday coverage</a></div></article>
+        <article class="card"><h3>Baby shoots</h3><p>Newborn, cake-smash and family sessions with a patient pace, thoughtful setups and a comfortable environment for parents.</p><a class="card-enquire" href="#contact" data-service="baby">Enquire about a baby shoot</a></article>
+        <article class="card"><h3>Portrait &amp; personal branding</h3><p>Portrait, family and product photography for individuals and businesses, captured in studio or on location.</p><div class="card-actions"><a href="#portfolio" data-go="portrait">View portrait work</a><a class="card-enquire" href="#contact" data-service="portrait">Plan a portrait session</a></div></article>
       </div>
-    </footer>
-
-    <div class="lightbox" data-lightbox aria-hidden="true" role="dialog" aria-modal="true" aria-label="Expanded portfolio image">
-      <button class="lightbox-close" type="button" data-lightbox-close aria-label="Close image">Close</button>
-      <figure><img src="" alt="" /><figcaption data-lightbox-caption></figcaption></figure>
     </div>
-    <script defer src="js/index.js"></script>
-  </body>
+  </section>
+
+  <section class="section dark" id="reels">
+    <div class="wrap">
+      <header class="head"><h2>Cinematic reels</h2><p>Story-led vertical videos for social media, planned and edited to suit your subject, audience and platform.</p></header>
+      <div class="reels">
+        <article class="reel" style="--bg:url('assets/images/p1.jpg')">
+          <div><h3>Reels for every story</h3><p>From cars and bikes to political campaigns, new arrivals and product launches, property showcases, store openings and milestone purchases, we create polished reels tailored to your story.</p><div class="card-actions"><a href="https://www.instagram.com/chitragatha_photos_and_films/" target="_blank" rel="noopener">View reel examples on Instagram</a><a class="card-enquire" href="#contact" data-service="reels">Plan a cinematic reel</a></div></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="portfolio">
+    <div class="wrap">
+      <header class="head"><h2>Selected portfolio</h2><p>Explore the work by category, then select a photograph to view it in detail. Looking for another kind of session? <a class="inline-link" href="#contact">Tell us what you have in mind.</a></p></header>
+      <div class="filters" role="group" aria-label="Filter portfolio">
+        <button type="button" class="chip active" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" class="chip" data-filter="wedding" aria-pressed="false">Weddings</button>
+        <button type="button" class="chip" data-filter="prewedding" aria-pressed="false">Pre-wedding shoots</button>
+        <button type="button" class="chip" data-filter="birthday" aria-pressed="false">Birthday celebrations</button>
+        <button type="button" class="chip" data-filter="portrait" aria-pressed="false">Portraits</button>
+        <button type="button" class="chip" data-filter="spiritual" aria-pressed="false">Spiritual</button>
+        <button type="button" class="chip" data-filter="nature" aria-pressed="false">Landscapes</button>
+      </div>
+      <div class="grid">
+        <img src="assets/images/p5.jpg" alt="Wedding details arranged with care" data-category="wedding" loading="lazy">
+        <img src="assets/images/p7.jpg" alt="A couple sharing a candid laugh" data-category="prewedding" loading="lazy">
+        <img src="assets/images/p4.jpg" alt="A joyful celebration captured in motion" data-category="birthday" loading="lazy">
+        <img src="assets/images/p9.jpg" alt="A celebration surrounded by family" data-category="birthday" loading="lazy">
+        <img src="assets/images/p3.jpg" alt="A portrait captured in an intimate setting" data-category="portrait" loading="lazy">
+        <img src="assets/images/p8.jpg" alt="A considered portrait with soft shadows" data-category="portrait" loading="lazy">
+        <img src="assets/images/s1.jpg" alt="Temple architecture against a clear sky" data-category="spiritual" loading="lazy">
+        <img src="assets/images/s2.jpg" alt="A serene place of worship" data-category="spiritual" loading="lazy">
+        <img src="assets/images/s3.jpg" alt="A spiritual ceremony detail" data-category="spiritual" loading="lazy">
+        <img src="assets/images/s4.jpg" alt="Sacred architecture and natural light" data-category="spiritual" loading="lazy">
+        <img src="assets/images/s5.jpg" alt="A peaceful devotional moment" data-category="spiritual" loading="lazy">
+        <img src="assets/images/s6.jpg" alt="A quiet temple scene" data-category="spiritual" loading="lazy">
+        <img src="assets/images/p1.jpg" alt="A quiet landscape in warm evening light" data-category="nature" loading="lazy">
+        <img src="assets/images/p2.jpg" alt="Green hills framed by soft morning light" data-category="nature" loading="lazy">
+        <img src="assets/images/p6.jpg" alt="A peaceful natural scene" data-category="nature" loading="lazy">
+        <img src="assets/images/ab1.jpg" alt="A wide open landscape" data-category="nature" loading="lazy">
+        <img src="assets/images/ab2.jpg" alt="A natural landscape beneath open skies" data-category="nature" loading="lazy">
+        <img src="assets/images/ab3.jpg" alt="A textured landscape in warm light" data-category="nature" loading="lazy">
+      </div>
+    </div>
+  </section>
+
+  <section class="section tint" id="process">
+    <div class="wrap">
+      <header class="head"><h2>How we work</h2><p>A simple, predictable process from first message to final delivery.</p></header>
+      <ol class="steps">
+        <li><h3>Enquire</h3><p>Share your date, location and plans. We’ll confirm availability and provide a clear, tailored quote.</p></li>
+        <li><h3>Plan</h3><p>Together, we’ll confirm the schedule, key moments and any specific requests ahead of the event.</p></li>
+        <li><h3>Capture</h3><p>Our team works in sync to document the day with care while letting each moment unfold naturally.</p></li>
+        <li><h3>Delivery</h3><p>Receive your curated photo gallery and edited films through a private link within the agreed timeframe.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="about">
+    <div class="wrap about">
+      <div>
+        <h2>The team behind the camera</h2>
+        <p>Chitragatha is led by photographer Rishikesh and filmmaker Sanny. As a close-knit team, we offer direct communication and thoughtful, consistent work from planning through delivery.</p>
+        <a class="btn btn-dark" href="#contact">Discuss your project</a>
+      </div>
+      <div class="team">
+        <figure><img src="assets/images/team1.jpg" alt="Rishikesh, photographer" loading="lazy"><figcaption>Rishikesh<small>Photographer</small></figcaption></figure>
+        <figure><img src="assets/images/team2.jpg" alt="Sanny, filmmaker" loading="lazy"><figcaption>Sanny<small>Filmmaker</small></figcaption></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="section dark" id="contact">
+    <div class="wrap contact">
+      <div>
+        <h2>Request a booking</h2>
+        <p>Tell us a little about your plans. We’ll follow up on WhatsApp to discuss availability and the next steps.</p>
+        <ul class="links">
+          <li><a href="https://wa.me/919970008737" target="_blank" rel="noopener">WhatsApp</a></li>
+          <li><a href="https://www.instagram.com/chitragatha_photos_and_films/" target="_blank" rel="noopener">Instagram</a></li>
+        </ul>
+      </div>
+      <form class="form" data-form novalidate>
+        <label for="booking-name">Full name<input id="booking-name" name="name" autocomplete="name" required></label>
+        <label for="booking-email">Email address<input id="booking-email" name="email" type="email" autocomplete="email" required></label>
+        <label for="booking-service">What can we help with?<select id="booking-service" name="service" required>
+          <option value="">Select a service</option>
+          <option value="wedding">Wedding photography and films</option><option value="prewedding">Pre-wedding shoot</option><option value="birthday">Birthday photography</option><option value="baby">Baby shoot</option><option value="portrait">Portrait or personal branding</option><option value="reels">Cinematic reels</option>
+        </select></label>
+        <label for="booking-date">Event date <span class="optional">(if known)</span><input id="booking-date" name="date" type="date"></label>
+        <label for="booking-location">Event location <span class="optional">(if known)</span><input id="booking-location" name="location" autocomplete="address-level2"></label>
+        <label for="booking-details">A few details about your plans<textarea id="booking-details" name="message" required></textarea></label>
+        <button class="btn btn-gold" type="submit">Continue to WhatsApp</button>
+        <p class="status" data-status role="status">Your message will open in WhatsApp for you to review before sending.</p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap foot">
+    <span>&copy; 2026 Chitragatha Photos &amp; Films. Based in India; available worldwide.</span>
+    <a href="https://www.instagram.com/chitragatha_photos_and_films/" target="_blank" rel="noopener">Instagram</a>
+    <a href="https://wa.me/919970008737" target="_blank" rel="noopener">WhatsApp</a>
+  </div>
+</footer>
+
+<a class="fab" href="https://wa.me/919970008737" target="_blank" rel="noopener" aria-label="Connect via WhatsApp">
+  <svg aria-hidden="true" viewBox="0 0 24 24" focusable="false">
+    <path d="M20.1 11.7a8.1 8.1 0 0 1-12 7.1L4 20l1.2-3.9a8.1 8.1 0 1 1 14.9-4.4Z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"/>
+    <path d="M9 8.2c.2-.5.5-.5.8-.5h.5c.2 0 .4.1.5.4l.8 1.8c.1.2.1.4 0 .6l-.6.8c-.2.2-.2.4 0 .6.5.8 1.2 1.5 2 2 .2.1.4.1.6-.1l.8-1c.2-.2.4-.2.6-.1l1.8.8c.3.1.4.3.4.5 0 .3-.2 1.3-.8 1.8-.5.5-1.2.7-2 .5-1-.2-2.4-.9-3.8-2.1-1.2-1.1-2-2.4-2.3-3.4-.3-.9-.1-1.7.4-2.2l1.1-.4Z" fill="currentColor"/>
+  </svg>
+  <span>Connect via WhatsApp</span>
+</a>
+
+<div class="lightbox" data-lightbox role="dialog" aria-modal="true" aria-label="Image viewer" aria-hidden="true">
+  <button type="button" class="lb-close" data-lb-close>Close</button>
+  <button type="button" class="lb-nav lb-prev" data-lb-prev aria-label="Previous image">&lsaquo;</button>
+  <img alt="">
+  <button type="button" class="lb-nav lb-next" data-lb-next aria-label="Next image">&rsaquo;</button>
+</div>
+<script src="index.js" defer></script>
+</body>
 </html>

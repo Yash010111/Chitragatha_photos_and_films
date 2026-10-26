@@ -5,13 +5,10 @@ A static photography studio portfolio built with semantic HTML, CSS, and browser
 ## Structure
 
 ```text
-index.html              Portfolio homepage
-contact.html            Contact page with WhatsApp handoff
+index.html              Single-page portfolio, team, and contact form
 assets/images/          Logos, banners, gallery, and team photography
-css/style.css           Shared visual system and component styles
-css/media-queries.css   Mobile layout rules
-css/utils.css           Small shared utility classes
-js/index.js             Navigation, filters, lightbox, and contact behavior
+style.css               Shared visual system and responsive component styles
+index.js                Navigation, filters, lightbox, and contact behavior
 ```
 
 ## Run locally
@@ -22,7 +19,7 @@ Open `index.html` directly in a browser, or serve the folder with any static ser
 npx serve .
 ```
 
-The contact form opens a pre-filled WhatsApp message because a static website has no server-side form endpoint. Replace the phone number in `contact.html` and `js/index.js` before publishing if needed.
+The contact form opens a pre-filled WhatsApp message because a static website has no server-side form endpoint. Replace the phone number in `index.html` and `index.js` before publishing if needed.
 
 ## Image performance
 
