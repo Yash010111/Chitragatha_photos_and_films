@@ -25,7 +25,7 @@
   $$("#menu a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
 
   // Scroll reveal (content stays visible without JS; reduced-motion handled in CSS)
-  const targets = $$(".bar,.svc li,.split>*,.center .wrap>*,.steps li,.about>*,.team figure");
+  const targets = $$(".bar,.svc li,.split>div,.split>form,.center .wrap>*,.steps li,.about>div:first-child,.team figure");
   targets.forEach((el) => {
     el.classList.add("reveal");
     el.style.setProperty("--i", [...el.parentElement.children].indexOf(el) % 4);

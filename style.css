@@ -32,10 +32,13 @@ h1,h2,h3{font-family:var(--serif);font-weight:300;line-height:1.1;letter-spacing
 .actions.mid{justify-content:center;margin-top:36px}
 
 /* Header */
-.header{position:fixed;inset:0 0 auto;z-index:50;color:#fff;transition:background .3s,backdrop-filter .3s,box-shadow .3s}
-.header.solid{background:rgba(var(--ink-rgb),.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 1px 0 rgba(255,255,255,.08)}
+.header{position:fixed;inset:0 0 auto;z-index:50;color:#fff}
+.header::before{content:"";position:absolute;inset:0;z-index:-1;background:rgba(var(--ink-rgb),.92);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);box-shadow:0 1px 0 rgba(255,255,255,.08);opacity:0;transition:opacity .3s}
+.header.solid::before{opacity:1}
 .nav{display:flex;align-items:center;justify-content:space-between;height:var(--h)}
-.brand{display:flex;flex-direction:column;text-decoration:none;font:400 1.35rem/1 var(--serif);letter-spacing:.01em}
+.brand{display:flex;align-items:center;gap:14px;text-decoration:none;font:400 1.35rem/1 var(--serif);letter-spacing:.01em}
+.brand img{width:44px;height:44px;border-radius:50%;object-fit:cover;flex:none}
+.brand span{display:flex;flex-direction:column}
 .brand small{margin-top:6px;font:500 .6rem var(--sans);letter-spacing:.28em;text-transform:uppercase;color:var(--accent)}
 .menu{display:flex;align-items:center;gap:44px}
 .menu ul{display:flex;gap:36px}
@@ -118,9 +121,12 @@ h2{font-size:clamp(2rem,4.2vw,3.2rem)}
 .f-brand .brand{color:#fff}
 .f-brand p{margin-top:20px;max-width:30ch}
 .legal{grid-column:1/-1;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-top:40px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12);font-size:.8rem;color:rgba(255,255,255,.5)}
-.fab{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:40;display:grid;place-items:center;width:52px;height:52px;border-radius:50%;background:#17803f;color:#fff;box-shadow:0 6px 20px rgba(0,0,0,.3);transition:background .2s,transform .2s}
-.fab:hover{background:#126832;transform:translateY(-2px)}
-.fab svg{width:24px;height:24px}
+.fab{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:40;display:flex;align-items:center;height:52px;max-width:52px;padding:0 14px;gap:0;overflow:hidden;border-radius:26px;background:#17803f;color:#fff;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.3);transition:max-width .4s cubic-bezier(.2,.7,.2,1),padding .4s,gap .4s,background .2s}
+.fab span{white-space:nowrap;font:700 .72rem var(--sans);letter-spacing:.14em;text-transform:uppercase;opacity:0;transition:opacity .25s}
+.fab:hover,.fab:focus-visible{max-width:320px;gap:12px;padding:0 22px 0 14px}
+.fab:hover span,.fab:focus-visible span{opacity:1}
+.fab:hover{background:#126832}
+.fab svg{width:24px;height:24px;flex:none}
 
 /* Lightbox */
 .lightbox{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:rgba(10,9,8,.97);opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s}
@@ -175,4 +181,27 @@ html.js:not(.seen) body{overflow:hidden}
   *{transition-duration:.01ms!important}
   .js .reveal{opacity:1;transform:none}
   .hero-in>*,.shutter-wrap{animation:none}
+}
+
+/* Horizontal carousel */
+.carousel {
+  overflow: hidden;
+  width: 100%;
+  margin: 2rem 0;
+}
+.carousel-track {
+  display: flex;
+  width: max-content;
+  animation: carousel-scroll 30s linear infinite;
+}
+.carousel-track img {
+  flex: 0 0 auto;
+  width: auto;
+  height: 200px; /* adjust as needed */
+  object-fit: cover;
+  margin-right: 1rem;
+}
+@keyframes carousel-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
