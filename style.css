@@ -73,6 +73,16 @@ h2{font-size:clamp(2rem,4.2vw,3.2rem)}
 .grid img:hover{opacity:.88}
 .grid img[hidden]{display:none}
 .js .grid img:not(.ld){opacity:0}
+/* Views: "Carousel" = 4 offset, auto-scrolling rows; any category = justified bricks */
+.carousel{display:none;--rh:clamp(150px,20vw,290px)}
+.js .gallery:not(.bricks) .carousel{display:block;min-height:calc(var(--rh) * 4);background:var(--tint)}
+.js .gallery:not(.bricks) .grid{display:none}
+.row{overflow:hidden}
+.track{display:flex;width:max-content;animation:roll var(--dur,90s) linear infinite;animation-delay:var(--delay,0s)}
+.row:nth-child(odd) .track{animation-direction:reverse}
+.carousel:hover .track{animation-play-state:paused}
+.track img{flex:none;height:var(--rh);width:auto;aspect-ratio:var(--r,1.5);object-fit:cover;cursor:zoom-in}
+@keyframes roll{to{transform:translateX(-50%)}}
 
 /* Services list */
 .svc{border-top:1px solid var(--line)}
@@ -121,12 +131,21 @@ h2{font-size:clamp(2rem,4.2vw,3.2rem)}
 .f-brand .brand{color:#fff}
 .f-brand p{margin-top:20px;max-width:30ch}
 .legal{grid-column:1/-1;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-top:40px;padding-top:24px;border-top:1px solid rgba(255,255,255,.12);font-size:.8rem;color:rgba(255,255,255,.5)}
-.fab{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:40;display:flex;align-items:center;height:52px;max-width:52px;padding:0 14px;gap:0;overflow:hidden;border-radius:26px;background:#17803f;color:#fff;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.3);transition:max-width .4s cubic-bezier(.2,.7,.2,1),padding .4s,gap .4s,background .2s}
+.fabs{position:fixed;right:20px;bottom:calc(20px + env(safe-area-inset-bottom));z-index:40;display:flex;flex-direction:column;align-items:flex-end;gap:12px}
+.fab{display:flex;align-items:center;height:52px;max-width:52px;padding:0 14px;gap:0;overflow:hidden;border-radius:26px;background:#17803f;color:#fff;text-decoration:none;box-shadow:0 6px 20px rgba(0,0,0,.3);transition:max-width .4s cubic-bezier(.2,.7,.2,1),padding .4s,gap .4s,background .2s}
 .fab span{white-space:nowrap;font:700 .72rem var(--sans);letter-spacing:.14em;text-transform:uppercase;opacity:0;transition:opacity .25s}
 .fab:hover,.fab:focus-visible{max-width:320px;gap:12px;padding:0 22px 0 14px}
 .fab:hover span,.fab:focus-visible span{opacity:1}
 .fab:hover{background:#126832}
 .fab svg{width:24px;height:24px;flex:none}
+.fab.ig{background:linear-gradient(45deg,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888)}
+.fab.ig:hover{background:linear-gradient(45deg,#f09433,#e6683c 25%,#dc2743 50%,#cc2366 75%,#bc1888);filter:brightness(1.1)}
+.fab.ig svg{fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.ig-i{width:1.2em;height:1.2em;margin-right:.6em;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:-.25em}
+.foot .ig-i{margin-right:.5em}
+.handle{display:inline-flex;align-items:center;margin-top:8px;font:500 .82rem var(--sans);text-decoration:none;color:var(--mute);word-break:break-all;transition:color .2s}
+.handle:hover{color:var(--accent-dark)}
+.handle .ig-i{margin-right:.45em}
 
 /* Lightbox */
 .lightbox{position:fixed;inset:0;z-index:100;display:grid;place-items:center;background:rgba(10,9,8,.97);opacity:0;visibility:hidden;transition:opacity .2s,visibility .2s}
@@ -172,36 +191,14 @@ html.js:not(.seen) body{overflow:hidden}
   .grid{--rowh:160px}
   .two{grid-template-columns:1fr}
   .bar{margin-bottom:32px}
-  .filters{flex-wrap:nowrap;overflow-x:auto;width:100%;scrollbar-width:none}
-  .chip{flex:0 0 auto}
+  .filters{gap:2px 20px}
+  .chip{min-height:44px}
   .lb-nav{width:44px}
 }
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *{transition-duration:.01ms!important}
   .js .reveal{opacity:1;transform:none}
-  .hero-in>*,.shutter-wrap{animation:none}
-}
-
-/* Horizontal carousel */
-.carousel {
-  overflow: hidden;
-  width: 100%;
-  margin: 2rem 0;
-}
-.carousel-track {
-  display: flex;
-  width: max-content;
-  animation: carousel-scroll 30s linear infinite;
-}
-.carousel-track img {
-  flex: 0 0 auto;
-  width: auto;
-  height: 200px; /* adjust as needed */
-  object-fit: cover;
-  margin-right: 1rem;
-}
-@keyframes carousel-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  .hero-in>*,.shutter-wrap,.track{animation:none}
+  .row{overflow-x:auto}
 }

@@ -25,7 +25,7 @@
   $$("#menu a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
 
   // Scroll reveal (content stays visible without JS; reduced-motion handled in CSS)
-  const targets = $$(".bar,.svc li,.split>div,.split>form,.center .wrap>*,.steps li,.about>div:first-child,.team figure");
+  const targets = $$(".svc li,.split>div,.split>form,.center .wrap>*,.steps li,.about>div:first-child,.team figure");
   targets.forEach((el) => {
     el.classList.add("reveal");
     el.style.setProperty("--i", [...el.parentElement.children].indexOf(el) % 4);
@@ -40,6 +40,9 @@
   // Portfolio: real aspect ratios drive the justified layout
   const chips = $$(".chip");
   const imgs = $$(".grid img");
+  const gallery = $(".gallery");
+  const carousel = $("[data-carousel]");
+  imgs.forEach((i) => { i.loading = "eager"; }); // the carousel needs every image
   imgs.forEach((i) => {
     const set = () => {
       if (i.naturalWidth) i.style.setProperty("--r", (i.naturalWidth / i.naturalHeight).toFixed(3));
@@ -52,6 +55,8 @@
     if (f !== "all" && !imgs.some((i) => i.dataset.category === f)) c.hidden = true;
   });
   const applyFilter = (f) => {
+    gallery.classList.toggle("bricks", f !== "all");
+    if (f === "all") requestAnimationFrame(setSpeed);
     chips.forEach((c) => {
       const on = c.dataset.filter === f;
       c.classList.toggle("active", on);
@@ -67,6 +72,47 @@
 
   const serviceSelect = $("[name='service']");
   $$("[data-service]").forEach((link) => link.addEventListener("click", () => { serviceSelect.value = link.dataset.service; }));
+
+  // Carousel: 4 rows, each starting at a different image and phase (brick offset)
+  const ROWS = 4;
+  const loaded = (i) => new Promise((r) => {
+    if (i.complete) r();
+    else { i.addEventListener("load", r, { once: true }); i.addEventListener("error", r, { once: true }); }
+  });
+  // constant scroll speed (~45px/s) whatever the row height
+  const setSpeed = () => $$(".track", carousel).forEach((t) => {
+    const w = t.scrollWidth;
+    if (w) t.style.setProperty("--dur", `${Math.round(w / 2 / 45)}s`);
+  });
+  let rt;
+  addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(setSpeed, 250); });
+  const buildCarousel = () => {
+    if (carousel.childElementCount) return;
+    for (let r = 0; r < ROWS; r++) {
+      const row = document.createElement("div");
+      row.className = "row";
+      const track = document.createElement("div");
+      track.className = "track";
+      track.style.setProperty("--delay", `${-(r * 11 + 4)}s`);
+      const shift = (r * 4) % imgs.length;
+      const order = [...imgs.slice(shift), ...imgs.slice(0, shift)];
+      for (let pass = 0; pass < 2; pass++) { // two identical sets = seamless loop
+        order.forEach((src) => {
+          const c = document.createElement("img");
+          c.src = src.currentSrc || src.src;
+          c.alt = "";
+          c.decoding = "async";
+          c.style.setProperty("--r", src.style.getPropertyValue("--r") || "1.5");
+          c.addEventListener("click", () => openLb(src, src));
+          track.appendChild(c);
+        });
+      }
+      row.appendChild(track);
+      carousel.appendChild(row);
+    }
+    setSpeed();
+  };
+  Promise.race([Promise.all(imgs.map(loaded)), new Promise((r) => setTimeout(r, 5000))]).then(buildCarousel);
 
   // Lightbox: keyboard, buttons, swipe, focus return and focus trap
   const lb = $("[data-lightbox]");
@@ -88,17 +134,18 @@
     document.body.classList.remove("lock");
     opener?.focus();
   };
+  const openLb = (img, from) => {
+    opener = from;
+    show(visible().indexOf(img));
+    lb.classList.add("open");
+    lb.setAttribute("aria-hidden", "false");
+    document.body.classList.add("lock");
+    $("[data-lb-close]").focus();
+  };
   imgs.forEach((img) => {
     img.tabIndex = 0;
     img.setAttribute("role", "button");
-    const open = () => {
-      opener = img;
-      show(visible().indexOf(img));
-      lb.classList.add("open");
-      lb.setAttribute("aria-hidden", "false");
-      document.body.classList.add("lock");
-      $("[data-lb-close]").focus();
-    };
+    const open = () => openLb(img, img);
     img.addEventListener("click", open);
     img.addEventListener("keydown", (e) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); } });
   });
