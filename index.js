@@ -5,6 +5,7 @@
   const WA = "919970008737";
   const FORM_ENDPOINT = ""; // e.g. Formspree / Cloudflare Worker URL; leads are POSTed here too when set
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const mobileMQ = matchMedia("(max-width:760px)");
 
   // Header: solid background after scrolling
   const header = $("[data-header]");
@@ -12,17 +13,40 @@
   onScroll();
   window.addEventListener("scroll", onScroll, { passive: true });
 
-  // Mobile menu
+  // Scroll-spy: mark the nav link of the section in view
+  const navLinks = $$("#menu li a");
+  const spy = new Map(navLinks.map((a) => [a.getAttribute("href").slice(1), a]));
+  if ("IntersectionObserver" in window) {
+    const so = new IntersectionObserver((entries) => entries.forEach((e) => {
+      const a = spy.get(e.target.id);
+      if (!a) return;
+      if (e.isIntersecting) {
+        navLinks.forEach((l) => l.removeAttribute("aria-current"));
+        a.setAttribute("aria-current", "true");
+      } else a.removeAttribute("aria-current");
+    }), { rootMargin: "-45% 0px -50% 0px" });
+    spy.forEach((_, id) => { const s = document.getElementById(id); if (s) so.observe(s); });
+  }
+
+  // Mobile menu (focus managed; closed menu is inert so it can't be tabbed into)
   const menu = $("#menu");
   const openBtn = $("[data-menu-open]");
-  const setMenu = (open) => {
+  const closeBtn = $("[data-menu-close]");
+  const syncInert = () => { menu.inert = mobileMQ.matches && !menu.classList.contains("open"); };
+  const setMenu = (open, restoreFocus = true) => {
+    if (open === menu.classList.contains("open")) return;
     menu.classList.toggle("open", open);
     document.body.classList.toggle("lock", open);
     openBtn.setAttribute("aria-expanded", String(open));
+    syncInert();
+    if (open) closeBtn.focus();
+    else if (restoreFocus && mobileMQ.matches) openBtn.focus({ preventScroll: true });
   };
+  syncInert();
+  mobileMQ.addEventListener("change", () => { if (!mobileMQ.matches) setMenu(false, false); syncInert(); });
   openBtn.addEventListener("click", () => setMenu(true));
-  $("[data-menu-close]").addEventListener("click", () => setMenu(false));
-  $$("#menu a").forEach((a) => a.addEventListener("click", () => setMenu(false)));
+  closeBtn.addEventListener("click", () => setMenu(false));
+  $$("#menu a").forEach((a) => a.addEventListener("click", () => setMenu(false, false)));
 
   // Scroll reveal (content stays visible without JS; reduced-motion handled in CSS)
   const targets = $$(".svc li,.split>div,.split>form,.center .wrap>*,.steps li,.about>div:first-child,.team figure");
@@ -37,15 +61,24 @@
     targets.forEach((el) => io.observe(el));
   } else targets.forEach((el) => el.classList.add("in"));
 
-  // Portfolio: real aspect ratios drive the justified layout
+  // Portfolio. If every <img> has width/height attributes, aspect ratios are known up front, so images can
+  // stay lazy and the carousel builds instantly. Otherwise we fall back to loading everything (the old behaviour).
   const chips = $$(".chip");
   const imgs = $$(".grid img");
   const gallery = $(".gallery");
   const carousel = $("[data-carousel]");
-  imgs.forEach((i) => { i.loading = "eager"; }); // the carousel needs every image
+  const knownRatio = (i) => {
+    const w = Number(i.getAttribute("width")), h = Number(i.getAttribute("height"));
+    return w && h ? w / h : 0;
+  };
+  const allSized = imgs.every((i) => knownRatio(i) > 0);
   imgs.forEach((i) => {
+    i.decoding = "async";
+    const known = knownRatio(i);
+    if (known) i.style.setProperty("--r", known.toFixed(3));
+    if (!allSized) i.loading = "eager";
     const set = () => {
-      if (i.naturalWidth) i.style.setProperty("--r", (i.naturalWidth / i.naturalHeight).toFixed(3));
+      if (!known && i.naturalWidth) i.style.setProperty("--r", (i.naturalWidth / i.naturalHeight).toFixed(3));
       i.classList.add("ld");
     };
     i.complete ? set() : (i.addEventListener("load", set, { once: true }), i.addEventListener("error", set, { once: true }));
@@ -73,70 +106,91 @@
   const serviceSelect = $("[name='service']");
   $$("[data-service]").forEach((link) => link.addEventListener("click", () => { serviceSelect.value = link.dataset.service; }));
 
-  // Carousel: 4 rows, each starting at a different image and phase (brick offset)
-  const ROWS = 4;
+  // Carousel: brick-offset rows, built once and cloned (no per-image listeners; one delegated click handler)
   const loaded = (i) => new Promise((r) => {
-    if (i.complete) r();
+    if (i.complete && i.naturalWidth) r();
     else { i.addEventListener("load", r, { once: true }); i.addEventListener("error", r, { once: true }); }
   });
-  // constant scroll speed (~45px/s) whatever the row height
   const setSpeed = () => $$(".track", carousel).forEach((t) => {
     const w = t.scrollWidth;
-    if (w) t.style.setProperty("--dur", `${Math.round(w / 2 / 45)}s`);
+    if (w) t.style.setProperty("--dur", `${Math.round(w / 2 / 45)}s`); // constant ~45px/s
   });
   let rt;
   addEventListener("resize", () => { clearTimeout(rt); rt = setTimeout(setSpeed, 250); });
+
   const buildCarousel = () => {
     if (carousel.childElementCount) return;
-    for (let r = 0; r < ROWS; r++) {
+    const rows = mobileMQ.matches ? 3 : 4; // fewer rows on phones: far less decoding/memory
+    const frag = document.createDocumentFragment();
+    for (let r = 0; r < rows; r++) {
       const row = document.createElement("div");
       row.className = "row";
       const track = document.createElement("div");
       track.className = "track";
       track.style.setProperty("--delay", `${-(r * 11 + 4)}s`);
       const shift = (r * 4) % imgs.length;
-      const order = [...imgs.slice(shift), ...imgs.slice(0, shift)];
-      for (let pass = 0; pass < 2; pass++) { // two identical sets = seamless loop
-        order.forEach((src) => {
-          const c = document.createElement("img");
-          c.src = src.currentSrc || src.src;
-          c.alt = "";
-          c.decoding = "async";
-          c.style.setProperty("--r", src.style.getPropertyValue("--r") || "1.5");
-          c.addEventListener("click", () => openLb(src, src));
-          track.appendChild(c);
-        });
-      }
+      const order = [...imgs.keys()].map((_, k) => (k + shift) % imgs.length);
+      const set = order.map((idx) => {
+        const src = imgs[idx];
+        const c = document.createElement("img");
+        c.src = src.currentSrc || src.src;
+        c.alt = "";
+        c.decoding = "async";
+        c.dataset.i = idx;
+        c.style.setProperty("--r", src.style.getPropertyValue("--r") || "1.5");
+        return c;
+      });
+      set.forEach((n) => track.appendChild(n));
+      set.forEach((n) => track.appendChild(n.cloneNode(true))); // second identical set = seamless loop
       row.appendChild(track);
-      carousel.appendChild(row);
+      frag.appendChild(row);
     }
+    carousel.appendChild(frag);
     setSpeed();
   };
-  Promise.race([Promise.all(imgs.map(loaded)), new Promise((r) => setTimeout(r, 5000))]).then(buildCarousel);
+  carousel.addEventListener("click", (e) => {
+    const t = e.target.closest("img[data-i]");
+    if (t) openLb(imgs[Number(t.dataset.i)], t);
+  });
+  (allSized ? Promise.resolve() : Promise.race([Promise.all(imgs.map(loaded)), new Promise((r) => setTimeout(r, 5000))])).then(buildCarousel);
+  mobileMQ.addEventListener("change", () => { carousel.replaceChildren(); buildCarousel(); });
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(([e]) => carousel.classList.toggle("is-off", !e.isIntersecting), { rootMargin: "100px" }).observe(carousel);
+  }
 
-  // Lightbox: keyboard, buttons, swipe, focus return and focus trap
+  // Lightbox: keyboard, buttons, swipe, neighbour preloading, focus return and focus trap
   const lb = $("[data-lightbox]");
   const lbImg = $("img", lb);
+  const lbCount = $("[data-lb-count]", lb);
   const lbBtns = $$("button", lb);
   let current = 0, opener = null, touchX = null;
+  lb.inert = true;
   const visible = () => imgs.filter((i) => !i.hidden);
+  const urlOf = (i) => i.currentSrc || i.src;
   const show = (i) => {
     const list = visible();
     if (!list.length) return;
     current = (i + list.length) % list.length;
-    lbImg.src = list[current].currentSrc || list[current].src;
+    lbImg.src = urlOf(list[current]);
     lbImg.alt = list[current].alt;
+    lbCount.textContent = `${current + 1} / ${list.length}`;
+    [current + 1, current - 1].forEach((k) => { new Image().src = urlOf(list[(k + list.length) % list.length]); });
   };
   const closeLb = () => {
     if (!lb.classList.contains("open")) return;
     lb.classList.remove("open");
     lb.setAttribute("aria-hidden", "true");
+    lb.inert = true;
     document.body.classList.remove("lock");
-    opener?.focus();
+    if (opener && opener.isConnected && opener.offsetParent !== null) {
+      if (!opener.hasAttribute("tabindex")) opener.tabIndex = -1;
+      opener.focus({ preventScroll: true });
+    }
   };
   const openLb = (img, from) => {
     opener = from;
     show(visible().indexOf(img));
+    lb.inert = false;
     lb.classList.add("open");
     lb.setAttribute("aria-hidden", "false");
     document.body.classList.add("lock");
@@ -160,23 +214,36 @@
     if (Math.abs(dx) > 50) show(current + (dx < 0 ? 1 : -1));
     touchX = null;
   });
+  const trap = (e, scope) => {
+    const f = $$("a[href],button", scope).filter((el) => el.offsetParent !== null || el === document.activeElement);
+    if (!f.length) return;
+    const first = f[0], last = f[f.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  };
   document.addEventListener("keydown", (e) => {
     if (e.key === "Escape") { closeLb(); setMenu(false); }
-    if (!lb.classList.contains("open")) return;
-    if (e.key === "ArrowLeft") show(current - 1);
-    if (e.key === "ArrowRight") show(current + 1);
-    if (e.key === "Tab") {
-      const first = lbBtns[0], last = lbBtns[lbBtns.length - 1];
-      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
-      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
-    }
+    if (lb.classList.contains("open")) {
+      if (e.key === "ArrowLeft") show(current - 1);
+      if (e.key === "ArrowRight") show(current + 1);
+      if (e.key === "Tab") trap(e, lb);
+    } else if (e.key === "Tab" && menu.classList.contains("open")) trap(e, menu);
   });
 
   // Contact form -> WhatsApp (+ optional server copy so leads are never lost)
   const form = $("[data-form]");
   const status = $("[data-status]");
+  const dateField = form.elements.date;
+  if (dateField) dateField.min = new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+  const phoneField = form.elements.phone;
+  const checkPhone = () => phoneField.setCustomValidity(phoneField.value.replace(/\D/g, "").length >= 10 ? "" : "Enter a phone number with at least 10 digits");
+  phoneField.addEventListener("input", checkPhone);
+  $$("input,select,textarea", form).forEach((f) => f.addEventListener("input", () => {
+    if (f.checkValidity()) { f.classList.remove("invalid"); f.setAttribute("aria-invalid", "false"); }
+  }));
   form.addEventListener("submit", (e) => {
     e.preventDefault();
+    checkPhone();
     let ok = true;
     $$("input,select,textarea", form).forEach((f) => {
       const bad = !f.checkValidity();
@@ -190,14 +257,22 @@
       return;
     }
     const d = new FormData(form);
-    if (d.get("bot-field")) return;
-    const date = d.get("date"), location = d.get("location"), email = d.get("email");
-    const text = `Hello Chitragatha, I would like to enquire about: ${serviceSelect.selectedOptions[0].textContent}.\nName: ${d.get("name")}\nPhone: ${d.get("phone")}${email ? `\nEmail: ${email}` : ""}${date ? `\nEvent date: ${date}` : ""}${location ? `\nEvent location: ${location}` : ""}\nDetails: ${d.get("message")}`;
+    if (d.get("bot-field")) return; // honeypot tripped: silently drop
+    const date = d.get("date");
+    const text = `Hello Chitragatha, I would like to enquire about: ${serviceSelect.selectedOptions[0].textContent}.\nName: ${d.get("name")}\nPhone: ${d.get("phone")}${date ? `\nEvent date: ${date}` : ""}\nDetails: ${d.get("message")}`;
+    const url = `https://wa.me/${WA}?text=${encodeURIComponent(text)}`;
     if (FORM_ENDPOINT) {
-      fetch(FORM_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.fromEntries(d)) }).catch(() => {});
+      fetch(FORM_ENDPOINT, { method: "POST", keepalive: true, headers: { "Content-Type": "application/json" }, body: JSON.stringify(Object.fromEntries(d)) }).catch(() => {});
     }
-    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(text)}`, "_blank", "noopener,noreferrer");
-    status.textContent = "WhatsApp has opened with your message. Please press send to complete your enquiry.";
+    const w = window.open(url, "_blank");
+    if (w) w.opener = null;
+    // Pop-up blockers can swallow window.open, so always leave a one-tap fallback link.
+    const link = document.createElement("a");
+    link.href = url;
+    link.target = "_blank";
+    link.rel = "noopener";
+    link.textContent = "Open WhatsApp";
+    status.replaceChildren(document.createTextNode(`${w ? "WhatsApp has opened with your message. Press send to complete your enquiry. " : "Your message is ready. "}`), link);
   });
 
   // Loader (camera shutter): once per session, skipped for reduced motion
