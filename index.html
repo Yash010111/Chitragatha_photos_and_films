@@ -77,6 +77,60 @@
     </div>
   </section>
 
+  <section class="journey" id="journey" data-cinematic-story aria-label="A story through the camera">
+    <div class="journey-visual" aria-hidden="true">
+      <canvas data-cinematic-canvas></canvas>
+      <div class="journey-grain"></div>
+      <div class="journey-progress"><span data-journey-progress></span></div>
+      <p class="journey-counter"><span data-journey-count>01</span><span> / 06</span></p>
+    </div>
+    <div class="journey-chapters">
+      <article class="journey-chapter is-active" data-journey-chapter aria-current="step">
+        <div class="journey-copy">
+          <p class="eyebrow">01 / Before the frame</p>
+          <h2>Every story begins with a <em>glance.</em></h2>
+          <p>Before the lights, before the guests arrive, there is a feeling waiting to be found.</p>
+        </div>
+      </article>
+      <article class="journey-chapter" data-journey-chapter>
+        <div class="journey-copy">
+          <p class="eyebrow">02 / Through the glass</p>
+          <h2>Come closer to the <em>moment.</em></h2>
+          <p>The world falls quiet. Light finds its way through, and everything else disappears.</p>
+        </div>
+      </article>
+      <article class="journey-chapter" data-journey-chapter>
+        <div class="journey-copy">
+          <p class="eyebrow">03 / A thousand details</p>
+          <h2>Some things happen only <em>once.</em></h2>
+          <p>A hand held a little tighter. A breath before the music. A room becoming a memory.</p>
+        </div>
+      </article>
+      <article class="journey-chapter" data-journey-chapter>
+        <div class="journey-copy">
+          <p class="eyebrow">04 / In the in-between</p>
+          <h2>The feeling lives between the <em>frames.</em></h2>
+          <p>Not just how it looked. The movement, the voices, the beautiful unscripted parts.</p>
+        </div>
+      </article>
+      <article class="journey-chapter" data-journey-chapter>
+        <div class="journey-copy">
+          <p class="eyebrow">05 / What remains</p>
+          <h2>Long after the light, the <em>feeling stays.</em></h2>
+          <p>Photographs and films made to bring you back—not just to the day, but to how it felt.</p>
+        </div>
+      </article>
+      <article class="journey-chapter" data-journey-chapter>
+        <div class="journey-copy">
+          <p class="eyebrow">06 / Your story</p>
+          <h2>Let’s make something <em>lasting.</em></h2>
+          <p>Every story has its own light. We would love to find yours.</p>
+          <a class="btn btn-fill" href="#portfolio">Step into the stories <span aria-hidden="true">↗</span></a>
+        </div>
+      </article>
+    </div>
+  </section>
+
   <section class="section gallery" id="portfolio">
     <div class="wrap bar">
       <h2>Selected work</h2>
@@ -226,5 +280,6 @@
   <button type="button" class="lb-nav lb-next" data-lb-next aria-label="Next image">&rsaquo;</button>
 </div>
 <script src="index.js?v=4" defer></script>
+<script type="module" src="cinematic-scene.js?v=1"></script>
 </body>
 </html>

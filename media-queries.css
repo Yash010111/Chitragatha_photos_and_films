@@ -18,10 +18,19 @@
   .chip{min-height:44px}
   .lb-nav{width:44px}
 }
+@media (max-width:760px){
+  .journey-progress{right:18px;height:24vh}
+  .journey-counter{right:18px}
+  .journey-chapter{padding:calc(var(--h) + 24px) 28px 80px 20px}
+  .journey-copy{width:min(470px,86vw)}
+  .journey-copy h2{max-width:9ch;font-size:clamp(3.2rem,14vw,5.4rem)}
+  .journey-copy>p:not(.eyebrow){max-width:32ch}
+}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
   *{transition-duration:.01ms!important}
   .js .reveal{opacity:1;transform:none}
   .hero-in>*,.shutter-wrap,.track{animation:none}
   .row{overflow-x:auto}
+  .journey-chapter .journey-copy{opacity:1;transform:none}
 }
