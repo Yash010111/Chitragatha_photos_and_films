@@ -5,10 +5,11 @@ A static photography studio portfolio built with semantic HTML, CSS, and browser
 ## Structure
 
 ```text
-index.html              Single-page portfolio, team, and contact form
-assets/images/          Logos, banners, gallery, and team photography
-style.css               Shared visual system and responsive component styles
-index.js                Navigation, filters, lightbox, and contact behavior
+index.html         Single-page portfolio, team, and contact form
+assets/images/     Logos, banners, gallery, and team photography
+style.css          Shared visual system and component styles
+media-queries.css  Responsive and reduced-motion styles
+index.js           Navigation, filters, lightbox, and contact behavior
 ```
 
 ## Run locally
