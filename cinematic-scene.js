@@ -1,3 +1,4 @@
+/*enh*/
 const story = document.querySelector("[data-cinematic-story]");
 const canvas = document.querySelector("[data-cinematic-canvas]");
 const chapters = [...document.querySelectorAll("[data-journey-chapter]")];
@@ -391,6 +392,23 @@ if (story && canvas && chapters.length) {
             dustGeometry.setAttribute("position", new THREE.BufferAttribute(dustPositions, 3));
             const dust = new THREE.Points(dustGeometry, dustMaterial);
             scene.add(dust);
+            /* ---------- Bokeh depth layer ---------- */
+            const bp = new Float32Array(90 * 3);
+            for (let i = 0; i < bp.length; i += 3) {
+                bp[i] = (Math.random() - 0.5) * 18; bp[i + 1] = (Math.random() - 0.5) * 10; bp[i + 2] = 6 - Math.random() * 38;
+            }
+            const bokehGeo = new THREE.BufferGeometry();
+            bokehGeo.setAttribute("position", new THREE.BufferAttribute(bp, 3));
+            const bokehTex = (() => {
+                const cv = document.createElement("canvas"); cv.width = cv.height = 64;
+                const g = cv.getContext("2d"), gr = g.createRadialGradient(32, 32, 0, 32, 32, 32);
+                gr.addColorStop(0, "rgba(255,200,120,.5)"); gr.addColorStop(0.85, "rgba(255,170,80,.35)"); gr.addColorStop(1, "rgba(255,170,80,0)");
+                g.fillStyle = gr; g.fillRect(0, 0, 64, 64);
+                const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; return t;
+            })();
+            const bokehMat = new THREE.PointsMaterial({ map: bokehTex, size: 0.7, transparent: true, opacity: 0.35, blending: THREE.AdditiveBlending, depthWrite: false });
+            const bokeh = new THREE.Points(bokehGeo, bokehMat);
+            scene.add(bokeh);
 
             /* ---------- Lens flare (camera-attached additive sprites) ---------- */
             const makeGlowTexture = (stops, size = 128) => {
@@ -643,6 +661,11 @@ if (story && canvas && chapters.length) {
             const resize = () => {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.fov = baseFov();
+                {
+                    const w = window.innerWidth, h = window.innerHeight;
+                    if (w < 760) camera.setViewOffset(w, h, 0, h * 0.16, w, h); // lens rides in the upper half on phones
+                    else camera.clearViewOffset();
+                }
                 camera.updateProjectionMatrix();
                 sizeBuffers();
                 measure();
@@ -727,8 +750,15 @@ if (story && canvas && chapters.length) {
                 cards.children.forEach((card) => {
                     card.position.y = card.userData.baseY + Math.sin(elapsed * 0.55 + card.userData.floatOffset) * 0.035;
                     card.rotation.y = card.userData.baseRotationY + Math.sin(elapsed * 0.17 + card.userData.floatOffset) * 0.03;
+                    const f = 1 - clamp(Math.abs(card.position.z - camPoint.z) / 9, 0, 1);
+                    card.scale.setScalar(1 + f * 0.06);
+                    const pm = card.children[1].material;
+                    if (pm.map) pm.color.setScalar(0.5 + 0.5 * smooth(f));
                 });
                 dust.rotation.z = elapsed * 0.006;
+                bokeh.rotation.y = elapsed * 0.01;
+                bokehMat.size = 0.7 + velocity * 0.5;
+                bokehMat.opacity = 0.3 + bump(p, clickP, 0.03) * 0.3;
                 dustMaterial.size = 0.04 + velocity * 0.03;
                 atmosphere.material.uniforms.uTime.value = elapsed;
 
