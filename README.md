@@ -7,9 +7,8 @@ A static photography studio portfolio built with semantic HTML, CSS, and browser
 ```text
 index.html         Single-page portfolio, team, and contact form
 assets/images/     Logos, banners, gallery, and team photography
-style.css          Shared visual system and component styles
-media-queries.css  Responsive and reduced-motion styles
-index.js           Navigation, filters, lightbox, and contact behavior
+merged.css         Combined site styles, responsive rules, and enhancement styling
+merged.js          Combined site behavior (nav, filters, carousel, lightbox, etc.)
 cinematic-scene.js Scroll-driven Three.js camera journey
 ```
 
@@ -21,7 +20,7 @@ Serve the folder with any static server (the Three.js scene loads its renderer a
 npx serve .
 ```
 
-The contact form opens a pre-filled WhatsApp message because a static website has no server-side form endpoint. Replace the phone number in `index.html` and `index.js` before publishing if needed.
+The contact form opens a pre-filled WhatsApp message because a static website has no server-side form endpoint. Replace the phone number in `index.html` and `merged.js` before publishing if needed.
 
 The camera journey uses Three.js from jsDelivr and the existing photo collection. If WebGL or the CDN is unavailable, the page content and portfolio remain usable without the 3D scene.
 

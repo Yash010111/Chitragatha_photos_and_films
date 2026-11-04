@@ -328,4 +328,81 @@
     Promise.race([hero, new Promise((r) => setTimeout(r, 2500))]).then(() => setTimeout(reveal, 200));
     setTimeout(done, 7000); // hard fail-safe so the site can never stay covered
   }
+})();(() => {
+  const $ = (s, r = document) => r.querySelector(s), $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const fine = matchMedia("(pointer:fine)").matches;
+  const chapters = $$("[data-journey-chapter]");
+
+  // Counter total derived from the DOM instead of a hard-coded "/ 06"
+  const cnt = $("[data-journey-count]");
+  if (cnt && cnt.nextElementSibling) cnt.nextElementSibling.textContent = ` / ${String(chapters.length).padStart(2, "0")}`;
+
+  // Split headlines into masked words (text content unchanged for screen readers)
+  if (!reduced) $$(".journey-copy h2").forEach((h) => {
+    let n = 0;
+    const walk = (node) => [...node.childNodes].forEach((c) => {
+      if (c.nodeType === 3) {
+        const f = document.createDocumentFragment();
+        c.textContent.split(/(\s+)/).forEach((t) => {
+          if (!t.trim()) { f.append(t); return; }
+          const o = document.createElement("span"), i = document.createElement("span");
+          o.className = "w"; i.textContent = t; i.style.setProperty("--n", n++);
+          o.append(i); f.append(o);
+        });
+        c.replaceWith(f);
+      } else if (c.nodeType === 1) walk(c);
+    });
+    walk(h);
+  });
+
+  // Page progress + per-chapter scroll offset (-1..1) for parallax drift
+  const bar = document.createElement("div");
+  bar.className = "page-progress"; bar.setAttribute("aria-hidden", "true");
+  document.body.append(bar);
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    bar.style.transform = `scaleX(${max > 0 ? Math.min(1, scrollY / max) : 0})`;
+    chapters.forEach((ch) => {
+      const r = ch.getBoundingClientRect();
+      if (r.bottom < -innerHeight || r.top > 2 * innerHeight) return;
+      const off = Math.max(-1, Math.min(1, (r.top + r.height / 2 - innerHeight / 2) / innerHeight));
+      ch.style.setProperty("--off", off.toFixed(3));
+    });
+  };
+  addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+  addEventListener("resize", update);
+  update();
+
+  if (!fine || reduced) return;
+
+  // Lens cursor: rAF loop runs only while the ring is still catching up
+  const c = document.createElement("div");
+  c.className = "lens-cursor"; c.setAttribute("aria-hidden", "true");
+  document.body.append(c);
+  let x = 0, y = 0, tx = 0, ty = 0, run = false;
+  const loop = () => {
+    x += (tx - x) * 0.18; y += (ty - y) * 0.18;
+    c.style.transform = `translate3d(${x}px,${y}px,0)`;
+    if (Math.abs(tx - x) + Math.abs(ty - y) > 0.3) requestAnimationFrame(loop); else run = false;
+  };
+  addEventListener("pointermove", (e) => {
+    tx = e.clientX; ty = e.clientY;
+    c.classList.add("on");
+    c.classList.toggle("view", !!e.target.closest(".grid img,.carousel img"));
+    c.classList.toggle("link", !!e.target.closest("a,button,.chip"));
+    if (!run) { run = true; requestAnimationFrame(loop); }
+  }, { passive: true });
+  document.documentElement.addEventListener("pointerleave", () => c.classList.remove("on"));
+
+  // Magnetic buttons
+  $$(".btn").forEach((b) => {
+    b.addEventListener("pointermove", (e) => {
+      const r = b.getBoundingClientRect();
+      b.style.translate = `${(e.clientX - r.left - r.width / 2) * 0.16}px ${(e.clientY - r.top - r.height / 2) * 0.26}px`;
+    });
+    b.addEventListener("pointerleave", () => { b.style.translate = ""; });
+  });
 })();

@@ -19,15 +19,14 @@
 <script>
 document.documentElement.classList.add('js');
 try{if(sessionStorage.cg)document.documentElement.classList.add('seen')}catch(e){}
-/* Fail-safe: even if index.js never loads, the loader can never cover the site for more than 9s. */
+/* Fail-safe: even if the main script never loads, the loader can never cover the site for more than 9s. */
 setTimeout(function(){document.documentElement.classList.add('seen')},9000);
 </script>
 <link rel="preload" as="image" href="assets/images/banner1.jpg" fetchpriority="high">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=5">
-<link rel="stylesheet" href="media-queries.css?v=5">
+<link rel="stylesheet" href="merged.css?v=7">
 <script type="application/ld+json">
 {"@context":"https://schema.org","@type":"ProfessionalService","name":"Chitragatha Photos & Films","description":"Wedding photography, pre-wedding shoots, celebrations, portraits and cinematic reels.","url":"https://chitragatha.com/","logo":"https://chitragatha.com/assets/images/logo.jpg","image":"https://chitragatha.com/assets/images/og.jpg","telephone":"+91-9970008737","serviceType":["Wedding photography","Pre-wedding shoots","Event photography","Portrait photography","Cinematic reels"],"sameAs":["https://www.instagram.com/chitragatha_photos_and_films/"]}
 </script>
@@ -152,7 +151,7 @@ setTimeout(function(){document.documentElement.classList.add('seen')},9000);
       </div>
     </div>
     <div class="carousel" data-carousel role="group" aria-label="Photo carousel. Choose a category above to browse the photos with a keyboard."></div>
-    <!-- Add width="…" height="…" to every <img> below and they can load lazily with zero layout shift (see index.js). -->
+    <!-- Add width="…" height="…" to every <img> below and they can load lazily with zero layout shift (see merged.js). -->
     <div class="grid">
       <img src="assets/images/p5.jpg" alt="Wedding details arranged with care" data-category="wedding">
       <img src="assets/images/p7.jpg" alt="A couple sharing a candid laugh" data-category="prewedding">
@@ -288,7 +287,7 @@ setTimeout(function(){document.documentElement.classList.add('seen')},9000);
   <img alt="">
   <button type="button" class="lb-nav lb-next" data-lb-next aria-label="Next image">&rsaquo;</button>
 </div>
-<script src="index.js?v=5" defer></script>
-<script type="module" src="cinematic-scene.js?v=2"></script>
+<script src="merged.js?v=7" defer></script>
+<script type="module" src="cinematic-scene.js?v=3"></script>
 </body>
 </html>
