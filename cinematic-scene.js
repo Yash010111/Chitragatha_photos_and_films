@@ -552,16 +552,81 @@ if (story && canvas && chapters.length) {
             };
             scene.add(buildRibbon(lensP + 0.05, 1, 0.9, 1), buildRibbon(lensP + 0.05, 1, 0.9, -1));
 
+            /* ---------- Illuminated gallery gates along the flight path ---------- */
+            const galleryGates = [];
+            const gateOuterGeometry = new THREE.TorusGeometry(3.3, 0.075, 12, 120);
+            const gateInnerGeometry = new THREE.TorusGeometry(3.08, 0.022, 8, 120);
+            const gateFrameMaterial = new THREE.MeshStandardMaterial({
+                color: 0x59401f, metalness: 0.92, roughness: 0.24,
+                emissive: 0x653a12, emissiveIntensity: 0.32,
+            });
+            const gateTraceMaterial = new THREE.MeshBasicMaterial({
+                color: new THREE.Color().setRGB(1.7, 1.05, 0.42),
+                transparent: true, opacity: 0.46, blending: THREE.AdditiveBlending,
+                depthWrite: false, toneMapped: false,
+            });
+            const gateTicksGeometry = (() => {
+                const points = [];
+                for (let i = 0; i < 24; i += 1) {
+                    const angle = (i / 24) * Math.PI * 2;
+                    const inner = i % 3 === 0 ? 3.12 : 3.2;
+                    const outer = 3.27;
+                    points.push(
+                        Math.cos(angle) * inner, Math.sin(angle) * inner, 0.04,
+                        Math.cos(angle) * outer, Math.sin(angle) * outer, 0.04,
+                    );
+                }
+                const geometry = new THREE.BufferGeometry();
+                geometry.setAttribute("position", new THREE.Float32BufferAttribute(points, 3));
+                return geometry;
+            })();
+            const gateTickMaterial = new THREE.LineBasicMaterial({
+                color: 0xe7bd70, transparent: true, opacity: 0.45,
+                blending: THREE.AdditiveBlending, depthWrite: false,
+            });
+            const gateGlowMaterial = new THREE.SpriteMaterial({
+                map: glowTex, color: 0xffc675, transparent: true, opacity: 0.04,
+                blending: THREE.AdditiveBlending, depthWrite: false, fog: false,
+            });
+            const gateForward = new THREE.Vector3(0, 0, 1);
+            for (let i = 0; i < 4; i += 1) {
+                const t = lerp(lensP + 0.2, 0.98, i / 3);
+                const center = camCurve.getPointAt(t);
+                const tangent = camCurve.getTangentAt(t).normalize();
+                const gate = new THREE.Group();
+                gate.position.copy(center);
+                gate.quaternion.setFromUnitVectors(gateForward, tangent);
+                const baseScale = 1.08 - i * 0.065;
+                gate.scale.setScalar(baseScale);
+
+                const frameMat = gateFrameMaterial.clone();
+                const traceMat = gateTraceMaterial.clone();
+                const tickMat = gateTickMaterial.clone();
+                const glowMat = gateGlowMaterial.clone();
+                gate.add(
+                    new THREE.Mesh(gateOuterGeometry, frameMat),
+                    new THREE.Mesh(gateInnerGeometry, traceMat),
+                    new THREE.LineSegments(gateTicksGeometry, tickMat),
+                );
+                const haze = new THREE.Sprite(glowMat);
+                haze.position.z = -0.12;
+                haze.scale.set(8.4, 8.4, 1);
+                gate.add(haze);
+                gate.userData = { t, baseScale, frameMat, traceMat, tickMat, glowMat, phase: i * 1.7 };
+                galleryGates.push(gate);
+                scene.add(gate);
+            }
+
             /* ---------- Photo gallery: film frames on a zig-zag corridor, one hero frame at the end ---------- */
             const FRAMES = [
                 { src: "assets/images/p5.jpg", exposure: "f/2.8  1/250  ISO 200" },
-                { src: "assets/images/p7.jpg", exposure: "f/1.8  1/500  ISO 100" },
+                { src: "assets/images/p6.jpg", exposure: "f/1.8  1/500  ISO 100" },
                 { src: "assets/images/p4.jpg", exposure: "f/4  1/125  ISO 400" },
                 { src: "assets/images/p9.jpg", exposure: "f/2  1/320  ISO 160" },
                 { src: "assets/images/p3.jpg", exposure: "f/5.6  1/200  ISO 200" },
                 { src: "assets/images/p8.jpg", exposure: "f/1.4  1/800  ISO 100" },
                 { src: "assets/images/s1.jpg", exposure: "f/2.8  1/160  ISO 320" },
-                { src: "assets/images/p1.jpg", exposure: "f/2  1/250  ISO 125" }, // hero frame
+                { src: "assets/images/p7.jpg", exposure: "f/2  1/250  ISO 125" }, // hero frame
             ];
             const CARD_W = 3.8;
             const CARD_H = 2.75;
@@ -670,7 +735,7 @@ if (story && canvas && chapters.length) {
                     map: glowTex, color: 0xffb060, blending: THREE.AdditiveBlending, transparent: true,
                     depthWrite: false, fog: false, opacity: 0,
                 }));
-                halo.scale.set(CARD_W * 2.1, CARD_H * 2.1, 1);
+                halo.scale.set(CARD_W * (hero ? 2.8 : 2.1), CARD_H * (hero ? 2.8 : 2.1), 1);
                 halo.position.z = -0.5;
                 const afMat = new THREE.LineBasicMaterial({ color: 0xffd9a0, transparent: true, opacity: 0 });
                 const brackets = new THREE.LineSegments(bracketGeometry, afMat);
@@ -703,7 +768,7 @@ if (story && canvas && chapters.length) {
                         c.addScaledVector(tan, 7.4);
                         c.y += 0.15;
                         u.baseRot.set(0, Math.atan2(-tan.x, -tan.z), 0);
-                        u.baseScale = mobile ? 1.05 : 1.5;
+                        u.baseScale = mobile ? 1.2 : 1.72;
                     } else {
                         u.t = lerp(lensP + 0.13, 0.93, laneCount > 1 ? i / (laneCount - 1) : 0);
                         camCurve.getPointAt(u.t, c);
@@ -1149,7 +1214,7 @@ if (story && canvas && chapters.length) {
                     const dim = 0.32 + 0.68 * f;
                     if (u.photoMat.map) u.photoMat.color.setScalar(dim * u.reveal);
                     u.overlayMat.color.setScalar(0.45 + 0.55 * f);
-                    u.haloMat.opacity = f * 0.4 * u.reveal;
+                    u.haloMat.opacity = f * (u.hero ? 0.58 : 0.4) * u.reveal;
                     const lock = smooth(clamp((u.focus - 0.5) / 0.4, 0, 1));
                     u.afMat.opacity = lock * (0.78 + 0.22 * Math.sin(elapsed * 5 + u.floatOffset));
                     u.brackets.scale.setScalar(lerp(1.14, 1, lock));
@@ -1167,6 +1232,16 @@ if (story && canvas && chapters.length) {
                 bokehMat.opacity = 0.3 + bump(p, clickP, 0.03) * 0.3;
                 dustMaterial.size = 0.04 + velocity * 0.03;
                 atmosphere.material.uniforms.uTime.value = elapsed;
+                galleryGates.forEach((gate) => {
+                    const { t, baseScale, frameMat, traceMat, tickMat, glowMat, phase } = gate.userData;
+                    const approach = bump(p, t - 0.035, 0.065);
+                    gate.rotation.z = Math.sin(elapsed * 0.16 + phase) * 0.008;
+                    gate.scale.setScalar(baseScale * (1 + approach * 0.018));
+                    frameMat.emissiveIntensity = 0.32 + approach * 0.72;
+                    traceMat.opacity = 0.32 + approach * 0.58;
+                    tickMat.opacity = 0.28 + approach * 0.62;
+                    glowMat.opacity = 0.025 + approach * 0.12;
+                });
 
                 // 1) scene -> HDR target
                 renderer.setRenderTarget(sceneTarget);
